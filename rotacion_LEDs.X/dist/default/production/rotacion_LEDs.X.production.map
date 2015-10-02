@@ -1,0 +1,44 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Mon Sep 14 02:17:28 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .cinit    romdata   0x000000    program   0x000002
+                   .org_0       code   0x000020    program   0x000022
+.config_300001_BUILD/DEFAULT/PRODUCTION/ROTACIO    romdata   0x300001    program   0x000001
+.config_300002_BUILD/DEFAULT/PRODUCTION/ROTACIO    romdata   0x300002    program   0x000001
+.config_300003_BUILD/DEFAULT/PRODUCTION/ROTACIO    romdata   0x300003    program   0x000001
+.config_300005_BUILD/DEFAULT/PRODUCTION/ROTACIO    romdata   0x300005    program   0x000001
+.config_300006_BUILD/DEFAULT/PRODUCTION/ROTACIO    romdata   0x300006    program   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000001      
+                            0x000020    0x000041      
+                            0x300001    0x300003      
+                            0x300005    0x300006      
+            41 out of 66584 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Inicio   0x000020    program     static /home/jose/Documentos/Mis_practicas_SE/rotacion_LEDs.X/rotacion_LEDs.asm
+            LoopEncendido   0x00002a    program     static /home/jose/Documentos/Mis_practicas_SE/rotacion_LEDs.X/rotacion_LEDs.asm
+            LoopPrincipal   0x000026    program     static /home/jose/Documentos/Mis_practicas_SE/rotacion_LEDs.X/rotacion_LEDs.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Inicio   0x000020    program     static /home/jose/Documentos/Mis_practicas_SE/rotacion_LEDs.X/rotacion_LEDs.asm
+            LoopPrincipal   0x000026    program     static /home/jose/Documentos/Mis_practicas_SE/rotacion_LEDs.X/rotacion_LEDs.asm
+            LoopEncendido   0x00002a    program     static /home/jose/Documentos/Mis_practicas_SE/rotacion_LEDs.X/rotacion_LEDs.asm
+
+

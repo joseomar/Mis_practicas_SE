@@ -1,0 +1,5 @@
+Warning[207] /home/jose/Documentos/Mis_practicas_SE/BinarioToBCD.X/BinarioToBCD.asm 50 : Found label after column 1. (Bin_a_BCD)
+Warning[207] /home/jose/Documentos/Mis_practicas_SE/BinarioToBCD.X/BinarioToBCD.asm 55 : Found label after column 1. (Resta10)
+Warning[207] /home/jose/Documentos/Mis_practicas_SE/BinarioToBCD.X/BinarioToBCD.asm 61 : Found label after column 1. (IncrementaDecenas)
+Warning[207] /home/jose/Documentos/Mis_practicas_SE/BinarioToBCD.X/BinarioToBCD.asm 69 : Found label after column 1. (IncrementaCentenas)
+Warning[207] /home/jose/Documentos/Mis_practicas_SE/BinarioToBCD.X/BinarioToBCD.asm 74 : Found label after column 1. (Fin_BIN_BCD)

@@ -1,0 +1,32 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Thu Aug 20 21:12:01 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x00000e
+                   .cinit    romdata   0x00000e    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00000f      
+            16 out of 66584 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    BUCLE   0x000006    program     static /home/jose/Documentos/Mis_practicas_SE/Suma_impares.X/Impar.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    BUCLE   0x000006    program     static /home/jose/Documentos/Mis_practicas_SE/Suma_impares.X/Impar.asm
+
+
