@@ -1,4 +1,4 @@
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  1
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -40,7 +40,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00022 ; CONFIG2H
                       00023   CONFIG  WDT = OFF             ; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDT
                             EN bit))
-                      00024   CONFIG  WDTPS = 32       ; Watchdog Timer Postscale Select bits (1:32768)
+                      00024   CONFIG  WDTPS = 32            ; Watchdog Timer Postscale Select bits (1:32768)
                       00025 
                       00026 ; CONFIG3H
                       00027   CONFIG  CCP2MX = PORTC        ; CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00035   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Ind
                             exed Addressing mode disabled (Legacy mode)) 
                       00036   
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  2
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[313]: CBLOCK constants will start with a value of 0.
 000052 EF?? F???      00082         goto      Retardo1       ; Cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
 000056 2E02           00083         decfsz    Delay2,f       ; Comienza el retardo, Decremento Delay1 hasta llegar a cero
 000058 EF?? F???      00084         goto      Retardo1       ; Cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  3
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -144,7 +144,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00007A 0010           00103         retfie
                       00104         
                       00105     end
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  4
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  4
 
 
 SYMBOL TABLE
@@ -203,7 +203,7 @@ C1OUT                             00000006
 C2INV                             00000005
 C2OUT                             00000007
 CCP1                              00000002
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  5
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  5
 
 
 SYMBOL TABLE
@@ -262,7 +262,7 @@ CVR2                              00000002
 CVR3                              00000003
 CVRCON                            00000FB5
 CVREN                             00000007
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  6
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  6
 
 
 SYMBOL TABLE
@@ -321,7 +321,7 @@ GIEL                              00000006
 GIE_GIEH                          00000007
 GO                                00000001
 GO_DONE                           00000001
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  7
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  7
 
 
 SYMBOL TABLE
@@ -380,7 +380,7 @@ IRCF2                             00000006
 IRVST                             00000005
 ISRADC                            00000074
 ISRtimer                          00000060
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  8
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  8
 
 
 SYMBOL TABLE
@@ -439,7 +439,7 @@ LVDIF                             00000002
 LVDIN                             00000005
 LVDIP                             00000002
 LVDL0                             00000000
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE  9
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE  9
 
 
 SYMBOL TABLE
@@ -498,7 +498,7 @@ PCLATU                            00000FFB
 PD                                00000002
 PDC0                              00000000
 PDC1                              00000001
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 10
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 10
 
 
 SYMBOL TABLE
@@ -557,7 +557,7 @@ PSPIF                             00000007
 PSPIP                             00000007
 PSPMODE                           00000004
 PSSAC0                            00000002
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 11
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 11
 
 
 SYMBOL TABLE
@@ -616,7 +616,7 @@ RD5                               00000005
 RD6                               00000006
 RD7                               00000007
 RE0                               00000000
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 12
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 12
 
 
 SYMBOL TABLE
@@ -675,7 +675,7 @@ SSPOV                             00000006
 SSPSTAT                           00000FC7
 STATUS                            00000FD8
 STKFUL                            00000007
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 13
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 13
 
 
 SYMBOL TABLE
@@ -734,7 +734,7 @@ TBLPTRU                           00000FF8
 TMR0                              00000FD6
 TMR0H                             00000FD7
 TMR0IE                            00000005
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 14
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 14
 
 
 SYMBOL TABLE
@@ -793,7 +793,7 @@ TRISC0                            00000000
 TRISC1                            00000001
 TRISC2                            00000002
 TRISC3                            00000003
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 15
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 15
 
 
 SYMBOL TABLE
@@ -852,7 +852,7 @@ _BOREN_ON_2L                      000000FB
 _BOREN_SBORDIS_2L                 000000FF
 _BORV_0_2L                        000000E7
 _BORV_1_2L                        000000EF
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 16
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 16
 
 
 SYMBOL TABLE
@@ -911,7 +911,7 @@ _IDLOC6                           00200006
 _IDLOC7                           00200007
 _IESO_OFF_1H                      0000007F
 _IESO_ON_1H                       000000FF
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 17
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 17
 
 
 SYMBOL TABLE
@@ -970,7 +970,7 @@ _WRTB_ON_6H                       000000BF
 _WRTC_OFF_6H                      000000FF
 _WRTC_ON_6H                       000000DF
 _WRTD_OFF_6H                      000000FF
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:37:28         PAGE 18
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:13:08         PAGE 18
 
 
 SYMBOL TABLE

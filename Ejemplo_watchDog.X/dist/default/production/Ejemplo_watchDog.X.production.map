@@ -1,5 +1,5 @@
 MPLINK 5.08, LINKER
-Linker Map File - Created Tue Sep 29 00:37:29 2015
+Linker Map File - Created Fri Oct  2 02:13:08 2015
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -31,23 +31,23 @@ Linker Map File - Created Tue Sep 29 00:37:29 2015
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   ISRADC   0x000074    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                 ISRtimer   0x000060    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                   Inicio   0x00001c    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                  Retardo   0x00006c    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                 Retardo1   0x000050    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                principal   0x00004c    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                   ISRADC   0x000074    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                 ISRtimer   0x000060    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                   Inicio   0x00001c    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                  Retardo   0x00006c    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                 Retardo1   0x000050    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                principal   0x00004c    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
 
 
 
                               Symbols - Sorted by Address
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   Inicio   0x00001c    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                principal   0x00004c    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                 Retardo1   0x000050    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                 ISRtimer   0x000060    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                  Retardo   0x00006c    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
-                   ISRADC   0x000074    program     static /home/jose/Documentos/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                   Inicio   0x00001c    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                principal   0x00004c    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                 Retardo1   0x000050    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                 ISRtimer   0x000060    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                  Retardo   0x00006c    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
+                   ISRADC   0x000074    program     static /home/jose/Carpeta_GIT/Mis_practicas_SE/Ejemplo_watchDog.X/Ejemplo_watchDog.asm
 
 

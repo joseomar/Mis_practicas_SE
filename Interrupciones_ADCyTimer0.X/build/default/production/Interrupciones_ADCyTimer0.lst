@@ -1,4 +1,4 @@
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  1
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -43,9 +43,9 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00025   CONFIG  BORV = 3              ; Brown Out Reset Voltage bits (Minimum setting)
                       00026 
                       00027 ; CONFIG2H
-                      00028   CONFIG  WDT = ON            ; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN
-                             bit))
-                      00029   CONFIG  WDTPS = 128           ; Watchdog Timer Postscale Select bits (1:32768)
+                      00028   CONFIG  WDT = OFF             ; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDT
+                            EN bit))
+                      00029   CONFIG  WDTPS = 32768         ; Watchdog Timer Postscale Select bits (1:32768)
                       00030 
                       00031 ; CONFIG3H
                       00032   CONFIG  CCP2MX = PORTC        ; CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00036 
                       00037 ; CONFIG4L
                       00038   CONFIG  STVREN = ON           ; Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  2
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -107,41 +107,38 @@ Message[313]: CBLOCK constants will start with a value of 0.
 000042 6ED5           00074         movwf   T0CON           ; flanco de subida, timer, 16bits, 
 000044 0E32           00075         movlw   d'50'           ; Delay dentro de la interrupcion del timer, solo
 000046 6E00           00076         movwf   Delay           ; a fines de ver el tema de prioridades.
-000048 80D1           00077         bsf     WDTCON,SWDTEN   ; Prendo el watchdog (solo tiene efecto con el bit de configuracion en O
-                            FF)
-                      00078         
-00004A                00079 principal:
-00004A 0000           00080         nop
-00004C 0004           00081         clrwdt
-00004E EF?? F???      00082         goto    principal
-                      00083 
-000052                00084 ISRtimer:
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  3
+                      00077         
+000048                00078 principal:
+000048 0000           00079         nop
+00004A EF?? F???      00080         goto    principal
+                      00081 
+00004E                00082 ISRtimer:
+00004E 94F2           00083         bcf     INTCON,TMR0IF   ; Limpio el flag de interrupcion del Timer0 para evitar llamadas recursi
+                            vas
+000050 82C2           00084         bsf     ADCON0,1        ; Doy inicio a la conversion seteando el GO_DONE
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-000052 94F2           00085         bcf     INTCON,TMR0IF   ; Limpio el flag de interrupcion del Timer0 para evitar llamadas recursi
-                            vas
-000054 82C2           00086         bsf     ADCON0,1        ; Doy inicio a la conversion seteando el GO_DONE
+000052 0E00           00085         movlw   h'00'
+000054 6ED7           00086         movwf   TMR0H
 000056 0E00           00087         movlw   h'00'
-000058 6ED7           00088         movwf   TMR0H
-00005A 0E00           00089         movlw   h'00'
-00005C 6ED6           00090         movwf   TMR0L
-00005E                00091 Retardo:
-00005E 2E00           00092         decfsz    Delay,f       ; Comienza el retardo, Decremento Delay1 hasta llegar a cero
-000060 EF?? F???      00093         goto      Retardo       ; Cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
-000064 0010           00094         retfie
-                      00095 
-000066                00096 ISRADC:
-000066 9C9E           00097         bcf     PIR1,ADIF       ;Limpio el flag de interrupcion del ADC para evitar llamadas recursivas
-000068 50C4           00098         movf    ADRESH,0        ; Muevo el ADRESH al registro w
-00006A 6E81           00099         movwf   PORTB           ; Muevo el resgistro w a los LEDs (puerto RB)
-00006C 0010           00100         retfie
-                      00101         
-                      00102     end
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  4
+000058 6ED6           00088         movwf   TMR0L
+00005A                00089 Retardo:
+00005A 2E00           00090         decfsz    Delay,f       ; Comienza el retardo, Decremento Delay1 hasta llegar a cero
+00005C EF?? F???      00091         goto      Retardo       ; Cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
+000060 0010           00092         retfie
+                      00093 
+000062                00094 ISRADC:
+000062 9C9E           00095         bcf     PIR1,ADIF       ;Limpio el flag de interrupcion del ADC para evitar llamadas recursivas
+000064 50C4           00096         movf    ADRESH,0        ; Muevo el ADRESH al registro w
+000066 6E81           00097         movwf   PORTB           ; Muevo el resgistro w a los LEDs (puerto RB)
+000068 0010           00098         retfie
+                      00099         
+                      00100     end
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  4
 
 
 SYMBOL TABLE
@@ -200,7 +197,7 @@ C1OUT                             00000006
 C2INV                             00000005
 C2OUT                             00000007
 CCP1                              00000002
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  5
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  5
 
 
 SYMBOL TABLE
@@ -259,7 +256,7 @@ CVR2                              00000002
 CVR3                              00000003
 CVRCON                            00000FB5
 CVREN                             00000007
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  6
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  6
 
 
 SYMBOL TABLE
@@ -318,7 +315,7 @@ GO                                00000001
 GO_DONE                           00000001
 GO_NOT_DONE                       00000001
 HLVDCON                           00000FD2
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  7
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  7
 
 
 SYMBOL TABLE
@@ -373,11 +370,11 @@ IRCF0                             00000004
 IRCF1                             00000005
 IRCF2                             00000006
 IRVST                             00000005
-ISRADC                            00000066
-ISRtimer                          00000052
+ISRADC                            00000062
+ISRtimer                          0000004E
 IVRST                             00000005
 Inicio                            0000001C
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  8
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  8
 
 
 SYMBOL TABLE
@@ -436,7 +433,7 @@ LVDIP                             00000002
 LVDL0                             00000000
 LVDL1                             00000001
 LVDL2                             00000002
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE  9
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE  9
 
 
 SYMBOL TABLE
@@ -495,7 +492,7 @@ PDC0                              00000000
 PDC1                              00000001
 PDC2                              00000002
 PDC3                              00000003
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 10
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 10
 
 
 SYMBOL TABLE
@@ -554,7 +551,7 @@ PSPMODE                           00000004
 PSSAC0                            00000002
 PSSAC1                            00000003
 PSSBD0                            00000000
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 11
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 11
 
 
 SYMBOL TABLE
@@ -613,7 +610,7 @@ RD7                               00000007
 RE0                               00000000
 RE1                               00000001
 RE2                               00000002
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 12
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 12
 
 
 SYMBOL TABLE
@@ -629,7 +626,7 @@ RXCKP                             00000005
 RXDTP                             00000005
 R_NOT_W                           00000002
 R_W                               00000002
-Retardo                           0000005E
+Retardo                           0000005A
 S                                 00000003
 SBOREN                            00000006
 SCK                               00000003
@@ -672,7 +669,7 @@ STKFUL                            00000007
 STKOVF                            00000007
 STKPTR                            00000FFC
 STKPTR0                           00000000
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 13
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 13
 
 
 SYMBOL TABLE
@@ -731,7 +728,7 @@ TMR0IE                            00000005
 TMR0IF                            00000002
 TMR0IP                            00000002
 TMR0L                             00000FD6
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 14
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 14
 
 
 SYMBOL TABLE
@@ -790,7 +787,7 @@ TRISC3                            00000003
 TRISC4                            00000004
 TRISC5                            00000005
 TRISC6                            00000006
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 15
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 15
 
 
 SYMBOL TABLE
@@ -849,7 +846,7 @@ _BORV_1_2L                        000000EF
 _BORV_2_2L                        000000F7
 _BORV_3_2L                        000000FF
 _CCP2MX_PORTBE_3H                 000000FE
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 16
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 16
 
 
 SYMBOL TABLE
@@ -908,7 +905,7 @@ _IESO_ON_1H                       000000FF
 _LPT1OSC_OFF_3H                   000000FB
 _LPT1OSC_ON_3H                    000000FF
 _LVP_OFF_4L                       000000FB
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 17
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 17
 
 
 SYMBOL TABLE
@@ -967,14 +964,14 @@ _WRTD_OFF_6H                      000000FF
 _WRTD_ON_6H                       0000007F
 _XINST_OFF_4L                     000000BF
 _XINST_ON_4L                      000000FF
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-29-2015  0:08:34         PAGE 18
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-2-2015  2:14:26         PAGE 18
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
 __18F4620                         00000001
-principal                         0000004A
+principal                         00000048
 
 Errors   :     0
 Warnings :     0 reported,     0 suppressed
