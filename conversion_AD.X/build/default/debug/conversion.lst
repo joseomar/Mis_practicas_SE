@@ -1,4 +1,4 @@
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  1
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00035   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Ind
                             exed Addressing mode disabled (Legacy mode)) 
                       00036   
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  2
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -90,7 +90,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00003C EF?? F???      00059         goto    principal
                       00060         
                       00061     end
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  3
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  3
 
 
 SYMBOL TABLE
@@ -149,7 +149,7 @@ C1OUT                             00000006
 C2INV                             00000005
 C2OUT                             00000007
 CCP1                              00000002
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  4
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  4
 
 
 SYMBOL TABLE
@@ -208,7 +208,7 @@ CVR2                              00000002
 CVR3                              00000003
 CVRCON                            00000FB5
 CVREN                             00000007
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  5
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  5
 
 
 SYMBOL TABLE
@@ -267,7 +267,7 @@ GO_DONE                           00000001
 GO_NOT_DONE                       00000001
 HLVDCON                           00000FD2
 HLVDEN                            00000004
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  6
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  6
 
 
 SYMBOL TABLE
@@ -326,7 +326,7 @@ Inicio                            00000020
 KBI0                              00000004
 KBI1                              00000005
 KBI2                              00000006
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  7
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  7
 
 
 SYMBOL TABLE
@@ -385,7 +385,7 @@ LVDL2                             00000002
 LVDL3                             00000003
 LVV0                              00000000
 LVV1                              00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  8
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  8
 
 
 SYMBOL TABLE
@@ -444,7 +444,7 @@ PDC3                              00000003
 PDC4                              00000004
 PDC5                              00000005
 PDC6                              00000006
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  9
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE  9
 
 
 SYMBOL TABLE
@@ -503,7 +503,7 @@ PSSBD0                            00000000
 PSSBD1                            00000001
 PWM1CON                           00000FB7
 R                                 00000002
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 10
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 10
 
 
 SYMBOL TABLE
@@ -562,7 +562,7 @@ RE2                               00000002
 RE3                               00000003
 RI                                00000004
 RSEN                              00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 11
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 11
 
 
 SYMBOL TABLE
@@ -621,7 +621,7 @@ STKPTR1                           00000001
 STKPTR2                           00000002
 STKPTR3                           00000003
 STKPTR4                           00000004
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 12
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 12
 
 
 SYMBOL TABLE
@@ -680,7 +680,7 @@ TMR0ON                            00000007
 TMR1                              00000FCE
 TMR1CS                            00000001
 TMR1H                             00000FCF
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 13
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 13
 
 
 SYMBOL TABLE
@@ -739,7 +739,7 @@ TRISC7                            00000007
 TRISD                             00000F95
 TRISD0                            00000000
 TRISD1                            00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 14
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 14
 
 
 SYMBOL TABLE
@@ -798,7 +798,7 @@ _CCP2MX_PORTC_3H                  000000FF
 _CONFIG1H                         00300001
 _CONFIG2H                         00300003
 _CONFIG2L                         00300002
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 15
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 15
 
 
 SYMBOL TABLE
@@ -857,7 +857,7 @@ _LVP_ON_4L                        000000FF
 _MCLRE_OFF_3H                     0000007F
 _MCLRE_ON_3H                      000000FF
 _OSC_ECIO6_1H                     000000F5
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 16
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 16
 
 
 SYMBOL TABLE
@@ -913,14 +913,16 @@ _WRTD_ON_6H                       0000007F
 _XINST_OFF_4L                     000000BF
 _XINST_ON_4L                      000000FF
 __18F4620                         00000001
+__DEBUG                           
+__MPLAB_DEBUGGER_SIMULATOR        1
 aca                               00000032
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:55         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 principal                         00000030
-
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 17
-
-
-
-
 
 Errors   :     0
 Warnings :     0 reported,     0 suppressed

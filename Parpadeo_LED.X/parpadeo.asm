@@ -85,7 +85,7 @@ LoopPrincipal:
      call      LoopEncendido
      goto      LoopPrincipal   ; y volvemos todo de nuevo...
      
-     LoopEncendido:
+LoopEncendido:
      decfsz    Delay1,1       ; Decremento Delay1 hasta llegar a cero
      goto      LoopEncendido  ; cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
      decfsz    Delay2,1       ; el proximo loop toma 3 ciclos en volver al primer loop, asi 256 veces

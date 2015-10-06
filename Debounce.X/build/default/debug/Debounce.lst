@@ -1,19 +1,21 @@
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  1
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00001 ;******************************************************************************
-                      00002 ;Practica 4: conversion AD
-                      00003 ;Este programa muestrea la entrada analogica en el pin de RA3 a través de la 
-                      00004 ;variacion de voltage en los terminales de un potenciometro. La salida se 
-                      00005 ;mostrará en los LED's.
-                      00006 ;MCE Starter KIT Student.
-                      00007 ;Autor: José O. Chelotti
-                      00008 ;******************************************************************************
-                      00009     
-                      00010 #include <p18f4620.inc>
+                      00001 ; *******************************************************************
+                      00002 ; Practica 6: Eliminacion de Debounce
+                      00003 ;
+                      00004 ; Eliminacion del debounce o efecto rebote del pulsador conectado en RA0
+                      00005 ;
+                      00006 ; MCE Starter KIT Student.
+                      00007 ; Autor: Chelotti Jose Omar
+                      00008 ;
+                      00009 ; *******************************************************************
+                      00010 
+                      00011 
+                      00012 #include "p18f4620.inc"
                       00001         LIST
                       00002 
                       00003 ;==========================================================================
@@ -24,73 +26,117 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00008 ;==========================================================================
                       00009 
                       01440         LIST
-                      00011     
-                      00012   ; CONFIG1H
-                      00013   CONFIG  OSC = XT              ; Oscillator Selection bits (XT oscillator)
-                      00014   CONFIG  FCMEN = OFF           ; Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
-                      00015   CONFIG  IESO = OFF            ; Internal/External Oscillator Switchover bit (Oscillator Switchover mod
+                      00013 
+                      00014      ; CONFIG1H
+                      00015   CONFIG  OSC = XT              ; Oscillator Selection bits (XT oscillator)
+                      00016   CONFIG  FCMEN = OFF           ; Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
+                      00017   CONFIG  IESO = OFF            ; Internal/External Oscillator Switchover bit (Oscillator Switchover mod
                             e disabled)
-                      00016 
-                      00017 ; CONFIG2L
-                      00018   CONFIG  PWRT = OFF            ; Power-up Timer Enable bit (PWRT disabled)
-                      00019   CONFIG  BOREN = ON            ; Brown-out Reset Enable bits (Brown-out Reset enabled and controlled by
+                      00018 
+                      00019 ; CONFIG2L
+                      00020   CONFIG  PWRT = OFF            ; Power-up Timer Enable bit (PWRT disabled)
+                      00021   CONFIG  BOREN = ON            ; Brown-out Reset Enable bits (Brown-out Reset enabled and controlled by
                              software (SBOREN is enabled))
-                      00020   CONFIG  BORV = 3              ; Brown Out Reset Voltage bits (Minimum setting)
-                      00021 
-                      00022 ; CONFIG2H
-                      00023   CONFIG  WDT = OFF             ; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDT
+                      00022   CONFIG  BORV = 3              ; Brown Out Reset Voltage bits (Minimum setting)
+                      00023 
+                      00024 ; CONFIG2H
+                      00025   CONFIG  WDT = OFF             ; Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDT
                             EN bit))
-                      00024   CONFIG  WDTPS = 32768         ; Watchdog Timer Postscale Select bits (1:32768)
-                      00025 
-                      00026 ; CONFIG3H
-                      00027   CONFIG  CCP2MX = PORTC        ; CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
-                      00028   CONFIG  PBADEN = ON           ; PORTB A/D Enable bit (PORTB<4:0> pins are configured as analog input c
+                      00026   CONFIG  WDTPS = 32768         ; Watchdog Timer Postscale Select bits (1:32768)
+                      00027 
+                      00028 ; CONFIG3H
+                      00029   CONFIG  CCP2MX = PORTC        ; CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
+                      00030   CONFIG  PBADEN = ON           ; PORTB A/D Enable bit (PORTB<4:0> pins are configured as analog input c
                             hannels on Reset)
-                      00029   CONFIG  LPT1OSC = OFF         ; Low-Power Timer1 Oscillator Enable bit (Timer1 configured for higher p
+                      00031   CONFIG  LPT1OSC = OFF         ; Low-Power Timer1 Oscillator Enable bit (Timer1 configured for higher p
                             ower operation)
-                      00030   CONFIG  MCLRE = ON            ; MCLR Pin Enable bit (MCLR pin enabled; RE3 input pin disabled)
-                      00031 
-                      00032 ; CONFIG4L
-                      00033   CONFIG  STVREN = ON           ; Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause
+                      00032   CONFIG  MCLRE = ON            ; MCLR Pin Enable bit (MCLR pin enabled; RE3 input pin disabled)
+                      00033 
+                      00034 ; CONFIG4L
+                      00035   CONFIG  STVREN = ON           ; Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause
                              Reset)
-                      00034   CONFIG  LVP = ON              ; Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
-                      00035   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Ind
-                            exed Addressing mode disabled (Legacy mode)) 
-                      00036   
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  2
+                      00036   CONFIG  LVP = ON              ; Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
+                      00037   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Ind
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00037 
-                      00038    
-                      00039     org 0x20                    ;Pongo el origen aca porque hasta 18h estan los vectores de interrupcion
-                      00040    
-000020                00041 Inicio:
-000020 6892           00042         setf    TRISA           ;Pongo todo el puerto A como entrada
-000022 6A93           00043         clrf    TRISB           ;Pongo todo el puerto B como salida
-000024 0E0B           00044         movlw   0x0B
-000026 6EC1           00045         movwf   ADCON1          ;VREFs normales (VSS y VDD) y AN3, AN2,AN1, AN0 como analogicos, el rest
-                            o como digital
-000028 0E0D           00046         movlw   b'00001101'     
-00002A 6EC2           00047         movwf   ADCON0          ;Elijo el canal AN3, y habilito el conversor, si bien no arranco la conv
-                            ersion (bit1-GO = 0)
-00002C 0E12           00048         movlw   b'00010010'     
-00002E 6EC0           00049         movwf   ADCON2          ;Elijo left justified del resultado, 4Tad y Fosc/32
-                      00050         
-000030                00051 principal:
-000030 82C2           00052         bsf     ADCON0,1        ;Doy inicio a la conversion seteando el GO_DONE
-                      00053         
-000032 B2C2           00054 aca:    btfsc   ADCON0,1        ;Pulling sobre GO_DONE. Si esta seteado salta
-000034 EF?? F???      00055         goto    aca
-                      00056         
-000038 50C4           00057         movf    ADRESH,w
-00003A 6E81           00058         movwf   PORTB
-00003C EF?? F???      00059         goto    principal
-                      00060         
-                      00061     end
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  3
+                            exed Addressing mode disabled (Legacy mode))
+                      00038      
+                      00039      
+                      00040      
+                      00041     cblock     0x20
+  00000020            00042     Delay               ; Asignamos una direccion a la etiqueta Delay
+  00000021            00043     Display             ; Variable que retiene el Displaydefine a variable to hold the diplay
+  00000022            00044     LastStableState     ; Mantiene el ultimo estado estable del switch(open-1; closed-0)
+  00000023            00045     Counter                             ; Contador
+                      00046     endc
+                      00047      
+                      00048      org 0x20
+000020                00049 Inicio:
+000020 0EFF           00050      movlw     0xFF
+000022 6E92           00051      movwf     TRISA               ; Port A entrada
+000024 6A93           00052      clrf      TRISB               ; Port B salida
+000026 0E0F           00053      movlw     0x0F               
+000028 6EC1           00054      movwf     ADCON1               ; Port A pines digitales
+00002A 6A81           00055      clrf      PORTB               ; Inicializo los leds
+                      00056      
+00002C 6A21           00057      clrf      Display
+00002E 0E00           00058      movlw     0x00
+000030 6E22           00059      movwf     LastStableState     ; Asumimos el switch esta sin apretar
+000032 6A23           00060      clrf      Counter
+                      00061      
+000034                00062 LoopPrincipal:
+000034 A022           00063      btfss     LastStableState,0
+000036 EF?? F???      00064      goto      LookingForUp
+                      00065      
+00003A                00066 LookingForDown:
+00003A 0E00           00067      movlw     0x00                ; asumimos que no esta en bajo
+00003C A080           00068      btfss     PORTA,0             ; Esta el pulsdor en Bajo?
+00003E 2823           00069      incf      Counter,w           ; si lo esta, incremento contador
+000040 6E23           00070      movwf     Counter             ; el valor del contador sera cero si esta en alto
+000042 EF?? F???      00071      goto      EndDebounce
+                      00072      
+000046                00073 LookingForUp:
+000046 0E00           00074      movlw     0x00                          
+000048 B080           00075      btfsc     PORTA,0             ; Esta en Alto?
+00004A 2823           00076      incf      Counter,w                   ; si lo esta, incremento contador
+00004C 6E23           00077      movwf     Counter
+                      00078 
+00004E                00079 EndDebounce:
+00004E 5023           00080      movf      Counter,w           ; Comparamos si tenemos el contador en 5
+000050 0A05           00081      xorlw     5
+000052 A4D8           00082      btfss     STATUS,Z     
+000054 EF?? F???      00083      goto      Delay1mS
+                      00084      
+000058 1E22           00085      comf      LastStableState,f   ; Cambiamos el estado
+00005A 6A23           00086      clrf      Counter
+00005C B022           00087      btfsc     LastStableState,0   ; se oprimio el pulsador
+00005E EF?? F???      00088      goto      Delay1mS            ; no, no hacer nada
+                      00089      
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000062 2A21           00090      incf      Display,f           ; si hubo toque del pulsador
+000064 5021           00091      movf      Display,w           ; enviamos el incremento al display de leds
+000066 6E81           00092      movwf     PORTB
+                      00093      
+000068                00094 Delay1mS:
+000068 0E47           00095         movlw     d'71'                 ; delay ~1000uS
+00006A 6E20           00096         movwf     Delay
+00006C 2E20           00097 Ret1:   decfsz    Delay,f             ; este bucle toma 215 ciclos
+00006E EF?? F???      00098         goto      Ret1          
+000072 2E20           00099 Ret2:   decfsz    Delay,f             ; este bucle toma 786 ciclos
+000074 EF?? F???      00100         goto      Ret2
+                      00101         
+000078 EF?? F???      00102         goto      LoopPrincipal
+                      00103      end
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  4
 
 
 SYMBOL TABLE
@@ -149,7 +195,7 @@ C1OUT                             00000006
 C2INV                             00000005
 C2OUT                             00000007
 CCP1                              00000002
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  4
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  5
 
 
 SYMBOL TABLE
@@ -208,7 +254,7 @@ CVR2                              00000002
 CVR3                              00000003
 CVRCON                            00000FB5
 CVREN                             00000007
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  5
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  6
 
 
 SYMBOL TABLE
@@ -217,6 +263,7 @@ SYMBOL TABLE
 CVROE                             00000006
 CVRR                              00000005
 CVRSS                             00000004
+Counter                           00000023
 D                                 00000005
 DC                                00000001
 DC1B0                             00000004
@@ -231,6 +278,9 @@ DDRE                              TRISE
 DONE                              00000001
 D_A                               00000005
 D_NOT_A                           00000005
+Delay                             00000020
+Delay1mS                          00000068
+Display                           00000021
 ECCP1AS                           00000FB6
 ECCPAS0                           00000004
 ECCPAS1                           00000005
@@ -245,6 +295,7 @@ EEIE                              00000004
 EEIF                              00000004
 EEIP                              00000004
 EEPGD                             00000007
+EndDebounce                       0000004E
 FAST                              00000001
 FERR                              00000002
 FREE                              00000004
@@ -262,17 +313,17 @@ GIE                               00000007
 GIEH                              00000007
 GIEL                              00000006
 GIE_GIEH                          00000007
-GO                                00000001
-GO_DONE                           00000001
-GO_NOT_DONE                       00000001
-HLVDCON                           00000FD2
-HLVDEN                            00000004
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  6
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  7
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+HLVDCON                           00000FD2
+HLVDEN                            00000004
 HLVDIE                            00000002
 HLVDIF                            00000002
 HLVDIN                            00000005
@@ -321,17 +372,17 @@ IRCF0                             00000004
 IRCF1                             00000005
 IRCF2                             00000006
 IRVST                             00000005
-IVRST                             00000005
-Inicio                            00000020
-KBI0                              00000004
-KBI1                              00000005
-KBI2                              00000006
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  7
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  8
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+IVRST                             00000005
+Inicio                            00000020
+KBI0                              00000004
+KBI1                              00000005
+KBI2                              00000006
 KBI3                              00000007
 LATA                              00000F89
 LATA0                             00000000
@@ -380,19 +431,23 @@ LVDIF                             00000002
 LVDIN                             00000005
 LVDIP                             00000002
 LVDL0                             00000000
-LVDL1                             00000001
-LVDL2                             00000002
-LVDL3                             00000003
-LVV0                              00000000
-LVV1                              00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  8
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE  9
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+LVDL1                             00000001
+LVDL2                             00000002
+LVDL3                             00000003
+LVV0                              00000000
+LVV1                              00000001
 LVV2                              00000002
 LVV3                              00000003
+LastStableState                   00000022
+LookingForDown                    0000003A
+LookingForUp                      00000046
+LoopPrincipal                     00000034
 MCLR                              00000003
 N                                 00000004
 NOT_A                             00000005
@@ -435,6 +490,12 @@ PCFG2                             00000002
 PCFG3                             00000003
 PCL                               00000FF9
 PCLATH                            00000FFA
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 PCLATU                            00000FFB
 PD                                00000002
 PDC0                              00000000
@@ -444,12 +505,6 @@ PDC3                              00000003
 PDC4                              00000004
 PDC5                              00000005
 PDC6                              00000006
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE  9
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 PEIE                              00000006
 PEIE_GIEL                         00000006
 PEN                               00000002
@@ -494,6 +549,12 @@ PSP5                              00000005
 PSP6                              00000006
 PSP7                              00000007
 PSPIE                             00000007
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 PSPIF                             00000007
 PSPIP                             00000007
 PSPMODE                           00000004
@@ -503,12 +564,6 @@ PSSBD0                            00000000
 PSSBD1                            00000001
 PWM1CON                           00000FB7
 R                                 00000002
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 10
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 RA0                               00000000
 RA1                               00000001
 RA2                               00000002
@@ -553,6 +608,12 @@ RD16                              00000007
 RD2                               00000002
 RD3                               00000003
 RD4                               00000004
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 RD5                               00000005
 RD6                               00000006
 RD7                               00000007
@@ -562,12 +623,6 @@ RE2                               00000002
 RE3                               00000003
 RI                                00000004
 RSEN                              00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 11
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 RX                                00000007
 RX9                               00000006
 RX9D                              00000000
@@ -575,6 +630,8 @@ RXCKP                             00000005
 RXDTP                             00000005
 R_NOT_W                           00000002
 R_W                               00000002
+Ret1                              0000006C
+Ret2                              00000072
 S                                 00000003
 SBOREN                            00000006
 SCK                               00000003
@@ -610,6 +667,12 @@ SSPM0                             00000000
 SSPM1                             00000001
 SSPM2                             00000002
 SSPM3                             00000003
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 SSPOV                             00000006
 SSPSTAT                           00000FC7
 STATUS                            00000FD8
@@ -621,12 +684,6 @@ STKPTR1                           00000001
 STKPTR2                           00000002
 STKPTR3                           00000003
 STKPTR4                           00000004
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 12
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 STKUNF                            00000006
 SWDTE                             00000000
 SWDTEN                            00000000
@@ -669,6 +726,12 @@ TABLAT                            00000FF5
 TBLPTR                            00000FF6
 TBLPTRH                           00000FF7
 TBLPTRL                           00000FF6
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 TBLPTRU                           00000FF8
 TMR0                              00000FD6
 TMR0H                             00000FD7
@@ -680,12 +743,6 @@ TMR0ON                            00000007
 TMR1                              00000FCE
 TMR1CS                            00000001
 TMR1H                             00000FCF
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 13
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 TMR1IE                            00000000
 TMR1IF                            00000000
 TMR1IP                            00000000
@@ -728,6 +785,12 @@ TRISB5                            00000005
 TRISB6                            00000006
 TRISB7                            00000007
 TRISC                             00000F94
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 TRISC0                            00000000
 TRISC1                            00000001
 TRISC2                            00000002
@@ -739,12 +802,6 @@ TRISC7                            00000007
 TRISD                             00000F95
 TRISD0                            00000000
 TRISD1                            00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 14
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 TRISD2                            00000002
 TRISD3                            00000003
 TRISD4                            00000004
@@ -787,6 +844,12 @@ WUE                               00000001
 Z                                 00000002
 _BOREN_NOSLP_2L                   000000FD
 _BOREN_OFF_2L                     000000F9
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _BOREN_ON_2L                      000000FB
 _BOREN_SBORDIS_2L                 000000FF
 _BORV_0_2L                        000000E7
@@ -798,12 +861,6 @@ _CCP2MX_PORTC_3H                  000000FF
 _CONFIG1H                         00300001
 _CONFIG2H                         00300003
 _CONFIG2L                         00300002
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 15
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _CONFIG3H                         00300005
 _CONFIG4L                         00300006
 _CONFIG5H                         00300009
@@ -846,6 +903,12 @@ _IDLOC2                           00200002
 _IDLOC3                           00200003
 _IDLOC4                           00200004
 _IDLOC5                           00200005
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _IDLOC6                           00200006
 _IDLOC7                           00200007
 _IESO_OFF_1H                      0000007F
@@ -857,12 +920,6 @@ _LVP_ON_4L                        000000FF
 _MCLRE_OFF_3H                     0000007F
 _MCLRE_ON_3H                      000000FF
 _OSC_ECIO6_1H                     000000F5
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 16
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _OSC_EC_1H                        000000F4
 _OSC_HSPLL_1H                     000000F6
 _OSC_HS_1H                        000000F2
@@ -905,6 +962,12 @@ _WRT2_ON_6L                       000000FB
 _WRT3_OFF_6L                      000000FF
 _WRT3_ON_6L                       000000F7
 _WRTB_OFF_6H                      000000FF
+MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:18:31         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _WRTB_ON_6H                       000000BF
 _WRTC_OFF_6H                      000000FF
 _WRTC_ON_6H                       000000DF
@@ -913,14 +976,8 @@ _WRTD_ON_6H                       0000007F
 _XINST_OFF_4L                     000000BF
 _XINST_ON_4L                      000000FF
 __18F4620                         00000001
-aca                               00000032
-principal                         00000030
-
-MPASM 5.62  /HOME/JOSE/CARPETA_GIT/MIS_PRACT   10-4-2015  22:16:45         PAGE 17
-
-
-
-
+__DEBUG                           
+__MPLAB_DEBUGGER_SIMULATOR        1
 
 Errors   :     0
 Warnings :     0 reported,     0 suppressed
