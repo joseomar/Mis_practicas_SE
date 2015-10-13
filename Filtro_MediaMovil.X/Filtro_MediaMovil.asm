@@ -35,14 +35,14 @@
   CONFIG  LVP = ON              ; Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode)) 
   
-    bloque udata  0x20
-	Display res 1			; Variable que guarda el estado de los LEDs
-	Delay res 2			; Registro de 2 bytes para retardo
-	Buffer res 8			; Buffer de 8 bytes para almacenar los 8 resultados
-	SumaTotal res 2		; Suma de los ultimos 8 valores
-	Rotar res 2			; Registro auxiliar para dividir por 8 realizando una rotación.
-	temp res 1			; Almacena temporalmente el resultado de la conversión
-      ;
+    cblock  0x20
+	Display:1			; Variable que guarda el estado de los LEDs
+	Delay:2			; Registro de 2 bytes para retardo
+	Buffer:8			; Buffer de 8 bytes para almacenar los 8 resultados
+	SumaTotal:2			; Suma de los ultimos 8 valores
+	Rotar:2			; Registro auxiliar para dividir por 8 realizando una rotación.
+	temp:1			; Almacena temporalmente el resultado de la conversión
+    endc
     
     org 0x20
     
@@ -87,7 +87,7 @@ Ini_Filtro:
 	
 Filtro:
 	movwf	temp		; Salva el nuevo valor convertido en la variable temp
-	movf	INDF0,w		; Salva en w el valor apuntado en la tabla
+	movf	INDF0,w		; Salva en w el valor a ser descartado
 	subwf   SumaTotal,f	; Hace SumaTotal-w, es decir restamos el valor a descartar
 	btfss   STATUS,C        ; Se produjo un borrow? (C=0)
 	decf    SumaTotal+1,f   ; si, restamos en una unidad parte alta
@@ -98,8 +98,8 @@ Filtro:
 	btfsc   STATUS,C	; Se produjo un carry? (C=1)
 	incf    SumaTotal+1,f	; Si, incrementamos el byte alto
 	
-	incf      FSR0,f
-	movf      FSR0,w
+	incf      FSR0,f	; Avanzo el puntero
+	movf      FSR0,w	; Lo vuelco en w
 	xorlw     Buffer+8        ; es el ultimo registro?
 	movlw     Buffer          ; cargamos W con direccion inicial
 	btfsc     STATUS,Z

@@ -1,3 +1,3 @@
 build/default/debug/BinarioToBCD.o:  \
-	/home/jose/Documentos/Mis_practicas_SE/BinarioToBCD.X/BinarioToBCD.asm  \
+	/home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm  \
 

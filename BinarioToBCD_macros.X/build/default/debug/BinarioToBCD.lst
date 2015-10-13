@@ -1,4 +1,4 @@
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  1
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00035   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Ind
                             exed Addressing mode disabled (Legacy mode)) 
                       00036   
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  2
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -70,99 +70,296 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   00000023            00041             centena
   00000024            00042             decena
   00000025            00043             unidad
-                      00044         endc
-                      00045     
-  00000076            00046 Numero EQU d'118'
-                      00047  
-                      00048 BINaBCD macro Centenas, Decenas, Unidades, w
+  00000026            00044             Delay1
+  00000027            00045             Delay2
+                      00046         endc
+                      00047     
+  00000076            00048 Numero EQU d'118'
                       00049  
-                      00050      Bin_a_BCD:
-                      00051         clrf    Centenas        ;Limpio las centenas
-                      00052         clrf    Decenas         ;Limpio las decenas
-                      00053         movwf   Unidades        ;Cargo el valor a convertir en unidades
-                      00054         
-                      00055     Resta10:
-                      00056         movlw   d'10'           ;Asigno 10 a w
-                      00057         subwf   Unidades,0      ;Resto 10 a unidades
-                      00058         btfss   STATUS,C    
-                      00059         goto    Fin_BIN_BCD
-                      00060         
-                      00061     IncrementaDecenas:
-                      00062         movwf   Unidades
-                      00063         incf    Decenas
-                      00064         movlw   d'10'
-                      00065         subwf   Decenas,0
-                      00066         btfss   STATUS,C
-                      00067         goto    Resta10
-                      00068 
-                      00069     IncrementaCentenas:
-                      00070         clrf    Decenas
-                      00071         incf    Centenas
-                      00072         goto    Resta10
-                      00073         
-                      00074     Fin_BIN_BCD:
-                      00075         swapf   Decenas,0
-                      00076         addwf   Unidades,0
-                      00077         return
-                      00078     endm
-                      00079     
-                      00080     org 0x20
-                      00081     
-000020                00082 Inicio: 
-000020 6A93           00083         clrf    TRISB           ;Configuro el puerto B como salida (LEDs)
-                      00084 
-000022                00085 Principal: 
-000022 0E76           00086         movlw   Numero          ;Muevo Numero a w
-                      00087         ;call   Bin_a_BCD       ;Llamo a la funcion de conversion
-                      00088         BINaBCD centena, decena, unidad, w
-                          M  
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  3
+                      00050 ; ************** Comandos Constantes de Software *********************
+  00000080            00051 LCDLinea1       EQU h'80'           ; Dir de comienzo linea 1
+  000000C0            00052 LCDLinea2       EQU h'C0'           ; Dir de comienzo linea 2
+  00000001            00053 LCDCLR          EQU h'01'           ; Borra pantalla cursos home
+  00000002            00054 LCDCasa         EQU h'02'           ; Cursor home, DDRAM sin cambios
+  00000006            00055 LCDInc          EQU h'06'           ; Modo incremento del cursor despues de cada caracter
+  00000004            00056 LCDDec          EQU h'04'           ; Modo decremento del cursor idem
+  0000000C            00057 LCDOn           EQU h'0C'           ; Pantalla On
+  00000008            00058 LCDOff          EQU h'08'           ; Pantalla Off
+  0000000E            00059 CursOn          EQU h'0E'           ; Pantalla On, Cursor On
+  0000000C            00060 CursOff         EQU h'0C'           ; Pantalla On, Cursor Off
+  0000000F            00061 CursBlink       EQU h'0F'           ; Pantalla On, Cursor Parpadeo
+  00000018            00062 LCDIzda         EQU h'18'           ; Pantalla desplazada a la Izquierda
+  0000001C            00063 LCDDecha        EQU h'1C'           ; Pantalla desplazada a la Derecha
+  0000010C            00064 CursIzda        EQU h'10C'          ; Cursor a la izquierda
+  0000014C            00065 CursDecha       EQU h'14C'          ; Cursor a la derecha
+  0000038C            00066 LCDFuncion      EQU h'38C'          ; Inicializacion registro de Funcion (verificar DL)
+  0000040C            00067 LCDCGRAM        EQU h'40C'          ; Dir origen CGRAM      
+                      00068  
+                      00069 ;********************************************************************************
+                      00070         
+                      00071 BINaBCD macro Centenas, Decenas, Unidades, w
+                      00072  
+                      00073 Bin_a_BCD:
+                      00074         clrf    Centenas        ;Limpio las centenas
+                      00075         clrf    Decenas         ;Limpio las decenas
+                      00076         movwf   Unidades        ;Cargo el valor a convertir en unidades
+                      00077         
+                      00078 Resta10:
+                      00079         movlw   d'10'           ;Asigno 10 a w
+                      00080         subwf   Unidades,0      ;Resto 10 a unidades
+                      00081         btfss   STATUS,C    
+                      00082         goto    Fin_BIN_BCD
+                      00083         
+                      00084 IncrementaDecenas:
+                      00085         movwf   Unidades
+                      00086         incf    Decenas
+                      00087         movlw   d'10'
+                      00088         subwf   Decenas,0
+                      00089         btfss   STATUS,C
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-Warning[207]: Found label after column 1. (Bin_a_BCD)
-000024                    M      Bin_a_BCD:
-000024 6A23               M         clrf    centena         ;Limpio las centenas
-000026 6A24               M         clrf    decena          ;Limpio las decenas
-000028 6E25               M         movwf   unidad          ;Cargo el valor a convertir en unidades
+                      00090         goto    Resta10
+                      00091 
+                      00092 IncrementaCentenas:
+                      00093         clrf    Decenas
+                      00094         incf    Centenas
+                      00095         goto    Resta10
+                      00096         
+                      00097 Fin_BIN_BCD:
+                      00098         swapf   Decenas,0
+                      00099         addwf   Unidades,0
+                      00100         return
+                      00101     endm
+                      00102     
+                      00103     org 0x20
+                      00104     
+000020                00105 Inicio: 
+000020 6A93           00106         clrf    TRISB           ;Configuro el puerto B como salida (LEDs)
+000022 0E07           00107         movlw     d'7'
+000024 6E27           00108         movwf     Delay2
+                      00109 
+000026                00110 Principal: 
+000026 0E76           00111         movlw   Numero          ;Muevo Numero a w
+                      00112         ;call   Bin_a_BCD       ;Llamo a la funcion de conversion
+                      00113         BINaBCD centena, decena, unidad, w
+                          M  
+000028                    M Bin_a_BCD:
+000028 6A23               M         clrf    centena         ;Limpio las centenas
+00002A 6A24               M         clrf    decena          ;Limpio las decenas
+00002C 6E25               M         movwf   unidad          ;Cargo el valor a convertir en unidades
                           M         
-Warning[207]: Found label after column 1. (Resta10)
-00002A                    M     Resta10:
-00002A 0E0A               M         movlw   d'10'           ;Asigno 10 a w
-00002C 5C25               M         subwf   unidad,0        ;Resto 10 a unidades
-00002E A0D8               M         btfss   STATUS,C    
-000030 EF?? F???          M         goto    Fin_BIN_BCD
+00002E                    M Resta10:
+00002E 0E0A               M         movlw   d'10'           ;Asigno 10 a w
+000030 5C25               M         subwf   unidad,0        ;Resto 10 a unidades
+000032 A0D8               M         btfss   STATUS,C    
+000034 EF?? F???          M         goto    Fin_BIN_BCD
                           M         
-Warning[207]: Found label after column 1. (IncrementaDecenas)
-000034                    M     IncrementaDecenas:
-000034 6E25               M         movwf   unidad
-000036 2A24               M         incf    decena
-000038 0E0A               M         movlw   d'10'
-00003A 5C24               M         subwf   decena,0
-00003C A0D8               M         btfss   STATUS,C
-00003E EF?? F???          M         goto    Resta10
+000038                    M IncrementaDecenas:
+000038 6E25               M         movwf   unidad
+00003A 2A24               M         incf    decena
+00003C 0E0A               M         movlw   d'10'
+00003E 5C24               M         subwf   decena,0
+000040 A0D8               M         btfss   STATUS,C
+000042 EF?? F???          M         goto    Resta10
                           M 
-Warning[207]: Found label after column 1. (IncrementaCentenas)
-000042                    M     IncrementaCentenas:
-000042 6A24               M         clrf    decena
-000044 2A23               M         incf    centena
-000046 EF?? F???          M         goto    Resta10
+000046                    M IncrementaCentenas:
+000046 6A24               M         clrf    decena
+000048 2A23               M         incf    centena
+00004A EF?? F???          M         goto    Resta10
                           M         
-Warning[207]: Found label after column 1. (Fin_BIN_BCD)
-00004A                    M     Fin_BIN_BCD:
-00004A 3824               M         swapf   decena,0
-00004C 2425               M         addwf   unidad,0
-00004E 0012               M         return
-000050 6E81           00089         movwf   PORTB           ;Muestro el resultado a traves de los LEDs
-000052 EF?? F???      00090         goto    $               ;Mequedo aca
-                      00091         
-                      00092         
-                      00093 ;***********************Subrutina Bin_a_BCD*****************************
-                      00094         
-                      00095         end
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  4
+00004E                    M Fin_BIN_BCD:
+00004E 3824               M         swapf   decena,0
+000050 2425               M         addwf   unidad,0
+000052 0012               M         return
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000054 6E81           00114         movwf   PORTB           ;Muestro el resultado a traves de los LEDs
+000056 EC?? F???      00115         call    LCD_Port
+00005A EC?? F???      00116         call    LCD_Init
+00005E EC?? F???      00117         call    LCD_Port
+000062 5023           00118         movf    centena,0
+000064 EC?? F???      00119         call    LCD_Caracter
+000068 5024           00120         movf    decena,0
+00006A EC?? F???      00121         call    LCD_Caracter
+00006E 5025           00122         movf    unidad,0
+000070 EC?? F???      00123         call    LCD_Caracter
+000074 EF?? F???      00124         goto    $               ;Mequedo aca
+                      00125                 
+                      00126 ;***********************Subrutina del LCD*****************************
+                      00127         
+                      00128 ;Description
+                      00129 ;       This subroutine provides calls for LCD operation including:
+                      00130 ;       - Port Configuration    
+                      00131 ;       - Register mode commands
+                      00132 ;       - LCD Busy check
+                      00133 ;       - LCD Enable toggle
+                      00134 
+                      00135 ;Variables
+                      00136 ;       None
+                      00137 
+                      00138 ;Requirements
+                      00139 ;       Two free levels of processor stack are required for nested calls.
+                      00140 ;       The LCD_Init subroutine requires a minimum 5ms delay to initialize
+                      00141 ;       the LCD. Delays longer than 5ms are acceptable. LCD_Init calls a
+                      00142 ;       subroutine by the name of Delay_5ms which must be included in your
+                      00143 ;       calling program. If your calling program contains a delay loop of
+                      00144 ;       longer than 5ms, you can use that delay by adding a Delay_5ms
+                      00145 ;       label before the routine.
+                      00146 
+                      00147 ;Use
+                      00148 ;       To initialize the LCD display after power-up:
+                      00149 ;       1. Call LCD_Port to initialize Port E and Port D for the LCD display
+                      00150 ;       2. Call LCD_Init to initialize the LCD controller
+                      00151 ;       To write a command or character to the LCD display:
+                      00152 ;       1. Call LCD_Port to initialize Port E and Port D for the LCD display
+                      00153 ;       2. Move an LCD command or ASCII character into W
+                      00154 ;       3. Call LCD_Reg or LCD_Data to send the command or
+                      00155 ;          character to the LCD.
+                      00156 
+                      00157 ; ************** Conexion Hardware para LCD **************************
+                      00158 ;LCDModo            EQU PORTE,0     ; Seleccion de registro LCD
+                      00159 ;LCDRW          EQU     PORTE,1     ; Lectura / Escritura LCD
+                      00160 ;LCDE                   EQU     PORTE,2     ; Habilita LCD
+                      00161          
+000078                00162 LCD_Port:
+                      00163                 ; Inicializa los buffers triestado puerto D como salidas 
+                      00164                 ; para líneas de datos LCD. Establece puerto de A como salida 
+                      00165                 ; digital y establece el registro de seleccion del LCD, 
+                      00166                 ; Read / Write y Habilitar.
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000078 0EF8           00167                 MOVLW                   b'11111000'  ;Coloca los 3 bits bajos de RE a
+00007A 1696           00168                 ANDWF                   TRISE           ;salida digital en TRISE
+00007C 6A95           00169                 CLRF                    TRISD       ;Coloca el Puerto D como salida
+                      00170                 ;BCF                    LCDE         ;Hahilita el LCD
+00007E 9484           00171                 BCF                     PORTE,2
+000080 0012           00172                 RETURN                          ;
+                      00173     
+000082                00174 LCD_Init:
+                      00175                 ; Inicializacion del LCD segun el manual de datos OPTEX
+                      00176                 ; Configura las funciones de LCD para pantalla DMC16207
+                      00177                 ; Produce reset por software, borra mamoria y 
+                      00178                 ; enciende pantalla
+Warning[202]: Argument out of range.  Least significant bits used.
+000082 0E8C           00179                 MOVLW           LCDFuncion      ; Carga W con codigo inicializacion (38h)
+000084 EC?? F???      00180                 CALL            LCD_Comando     ; y lo envia al LCD
+000088 EC?? F???      00181                 CALL            Pausa_5ms       ; ...espera
+Warning[202]: Argument out of range.  Least significant bits used.
+00008C 0E8C           00182                 MOVLW           LCDFuncion      ; Carga W con codigo inicializacion (38h)
+00008E EC?? F???      00183                 CALL            LCD_Comando     ; y lo envia al LCD
+000092 EC?? F???      00184                 CALL            Pausa_5ms       ; ...espera
+Warning[202]: Argument out of range.  Least significant bits used.
+000096 0E8C           00185                 MOVLW           LCDFuncion      ; Carga W con codigo inicializacion (38h)
+000098 EC?? F???      00186                 CALL            LCD_Comando     ; y lo envia al LCD
+00009C EC?? F???      00187                 CALL            Pausa_5ms       ; ...espera
+                      00188                 ; Cambie la constanter de la siguiente linea para activar
+                      00189                 ; la pantalla ej. LCDOn, CursOn, CursBlink. La constante es 
+                      00190                 ; de los comandos de software de la LCD
+0000A0 0E0C           00191                 MOVLW           LCDOn           ; Comando LCD On y Cursor Off
+0000A2 EC?? F???      00192                 CALL            LCD_Comando     ; y lo envia al LCD
+0000A6 0E01           00193                 MOVLW           LCDCLR          ; Carga W con codigo borrar LCD
+0000A8 EC?? F???      00194                 CALL            LCD_Comando     ; y lo envia al LCD
+0000AC 0E06           00195                 MOVLW           LCDInc          ; Carga W con codigo modo Inc
+0000AE EC?? F???      00196                 CALL            LCD_Comando     ; y lo envia al LCD
+0000B2 0012           00197                 RETURN
+                      00198                 
+0000B4                00199 LCD_Comando:
+                      00200                 ; Carga W con una constante software LCD de la tabla 
+                      00201                 ; de igualdades. LCD_Comando saca el comando a la LCD
+                      00202                 ; y activa la linea de habilitacion E con LCD_Habilita 
+                      00203                 ; para completar el comando.
+                      00204                 ;BCF            LCDModo         ; Entra en modo registro
+0000B4 9084           00205                 BCF             PORTE,0
+0000B6 6E83           00206                 MOVWF           PORTD           ; Envia W a la puesta D
+0000B8 EC?? F???      00207                 CALL            LCD_Chequea     ; Chequea la bandera de ocupado del LCD
+0000BC EF?? F???      00208                 GOTO            LCD_Habilita    ; Envia el comando
+                      00209         
+0000C0                00210 LCD_Caracter:
+                      00211                 ; Carga W con el codigo del caracter ASCII para enviarlo
+                      00212                 ; al LCD. LCD_Caracter saca el caracter al LCD y 
+                      00213                 ; activa la linea de Habilitacion (Enable) con
+                      00214                 ; LCD_Habilita para completar el envio
+                      00215                 ;BCF            LCDModo         ; Entra en modo registro
+0000C0 9084           00216                 BCF             PORTE,0         
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0000C2 6E83           00217                 MOVWF           PORTD           ; Envia W al puerto D
+0000C4 EC?? F???      00218                 CALL            LCD_Chequea     ; Chequea la bandera de ocupado
+                      00219                 ;BSF            LCDModo         ; Entra en modo ASCII
+0000C8 8084           00220                 BSF             PORTE,0         
+0000CA EF?? F???      00221                 GOTO            LCD_Habilita    ; Envia el caracter ASCII
+                      00222 
+0000CE                00223 LCD_Chequea:
+                      00224                 ; Comprueba el estado de la bandera ocupado y espera que cualquier
+                      00225                 ; comando anterior termine, antes de volver a la rutina de llamada.
+                      00226                 ;BSF                    LCDRW                   ;Coloca el LCD en modo lectura
+0000CE 8284           00227                 BSF                     PORTE,1
+0000D0 0EFF           00228                 MOVLW                   0xFF                    ;Coloca el Port D como entrada 
+0000D2 6E95           00229                 MOVWF                   TRISD                   ;Desabilita el triestado
+                      00230                 ;BSF                    LCDE                            ;Habilita el LCD
+0000D4 8484           00231                 BSF                     PORTE,2
+0000D6 0000           00232                 NOP                                             ;Espera un ciclo
+                      00233                 
+0000D8                00234 Loop:           
+0000D8 BE83           00235                 BTFSC                   PORTD,7         ;chequea el bit de ocupado del LCD
+0000DA EF?? F???      00236                 GOTO                    Loop                    ;espera el alto. (Busy=1)
+                      00237                 ;BCF                    LCDE                            ;desabilita el  LCD
+0000DE 9484           00238                 BCF                     PORTE,2
+0000E0 6A95           00239                 CLRF                    TRISD                   ;Coloca el Puerto D como salida
+                      00240                 ;BCF                    LCDRW                   ;Vuleve el LCD al modo escritura
+0000E2 9284           00241                 BCF                     PORTE,1         
+                      00242                 
+0000E4 0012           00243                 RETURN                                  
+                      00244         
+0000E6                00245 LCD_Habilita:   
+                      00246                 ; Envia un pulso de habilitacion de 500ns a la LCD para 
+                      00247                 ; completar la operacion de escribir un registro o un caracter.
+                      00248                 ; La instruccion NOP es necesaria para procesadores de 
+                      00249                 ; veloc sup a 8MHz. P Proc de mas de 16 añadir otro NOP.
+                      00250                 ;BSF                    LCDE                    ; Pone a 1 la linea Enable
+0000E6 8484           00251                 BSF                     PORTE,2
+0000E8 0000           00252                 NOP                                                     ; Pausa 250 ns
+                      00253                 ;BCF                    LCDE                    ; pone a 0 la linea enable
+0000EA 9484           00254                 BCF                     PORTE,2
+0000EC 0012           00255                 return
+                      00256 
+0000EE                00257 Pausa_5ms:            
+0000EE 2E26           00258                 decfsz    Delay1,1        ; Decremento Delay1 hasta llegar a cero
+0000F0 EF?? F???      00259                 goto      Pausa_5ms       ; cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucc
+                            iones
+0000F4 2E27           00260                 decfsz    Delay2,1        ; el proximo loop toma 3 ciclos en volver al primer loop, asi 
+                            256 veces
+0000F6 EF?? F???      00261                 goto      Pausa_5ms       ; (768+3) * 256 = 197376 instrucciones / con ciclos de 1uSeg =
+                             0.197 seg
+0000FA 0E07           00262                 movlw     d'7'
+0000FC 6E27           00263                 movwf     Delay2
+0000FE 0012           00264                 return
+                      00265 
+                      00266         
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00267         end
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  8
 
 
 SYMBOL TABLE
@@ -216,12 +413,12 @@ BOR                               00000000
 BRG16                             00000003
 BRGH                              00000002
 BSR                               00000FE0
-Bin_a_BCD                         00000024
+Bin_a_BCD                         00000028
 C                                 00000000
 C1INV                             00000004
 C1OUT                             00000006
 C2INV                             00000005
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  5
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE  9
 
 
 SYMBOL TABLE
@@ -280,7 +477,7 @@ CVR0                              00000000
 CVR1                              00000001
 CVR2                              00000002
 CVR3                              00000003
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  6
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 10
 
 
 SYMBOL TABLE
@@ -292,6 +489,11 @@ CVROE                             00000006
 CVRR                              00000005
 CVRSS                             00000004
 Centenas                          00000020
+CursBlink                         0000000F
+CursDecha                         0000014C
+CursIzda                          0000010C
+CursOff                           0000000C
+CursOn                            0000000E
 D                                 00000005
 DC                                00000001
 DC1B0                             00000004
@@ -307,6 +509,8 @@ DONE                              00000001
 D_A                               00000005
 D_NOT_A                           00000005
 Decenas                           00000021
+Delay1                            00000026
+Delay2                            00000027
 ECCP1AS                           00000FB6
 ECCPAS0                           00000004
 ECCPAS1                           00000005
@@ -332,19 +536,19 @@ FSR1H                             00000FE2
 FSR1L                             00000FE1
 FSR2                              00000002
 FSR2H                             00000FDA
-FSR2L                             00000FD9
-Fin_BIN_BCD                       0000004A
-GCEN                              00000007
-GIE                               00000007
-GIEH                              00000007
-GIEL                              00000006
-GIE_GIEH                          00000007
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  7
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 11
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+FSR2L                             00000FD9
+Fin_BIN_BCD                       0000004E
+GCEN                              00000007
+GIE                               00000007
+GIEH                              00000007
+GIEL                              00000006
+GIE_GIEH                          00000007
 GO                                00000001
 GO_DONE                           00000001
 GO_NOT_DONE                       00000001
@@ -391,6 +595,12 @@ INTEDG1                           00000005
 INTEDG2                           00000004
 INTSRC                            00000007
 IOFS                              00000002
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 IPEN                              00000007
 IPR1                              00000F9F
 IPR2                              00000FA2
@@ -398,15 +608,9 @@ IRCF0                             00000004
 IRCF1                             00000005
 IRCF2                             00000006
 IRVST                             00000005
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  8
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 IVRST                             00000005
-IncrementaCentenas                00000042
-IncrementaDecenas                 00000034
+IncrementaCentenas                00000046
+IncrementaDecenas                 00000038
 Inicio                            00000020
 KBI0                              00000004
 KBI1                              00000005
@@ -450,19 +654,37 @@ LATD6                             00000006
 LATD7                             00000007
 LATE                              00000F8D
 LATE0                             00000000
-LATE1                             00000001
-LATE2                             00000002
-LVDCON                            00000FD2
-LVDEN                             00000004
-LVDIE                             00000002
-LVDIF                             00000002
-LVDIN                             00000005
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE  9
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 13
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+LATE1                             00000001
+LATE2                             00000002
+LCDCGRAM                          0000040C
+LCDCLR                            00000001
+LCDCasa                           00000002
+LCDDec                            00000004
+LCDDecha                          0000001C
+LCDFuncion                        0000038C
+LCDInc                            00000006
+LCDIzda                           00000018
+LCDLinea1                         00000080
+LCDLinea2                         000000C0
+LCDOff                            00000008
+LCDOn                             0000000C
+LCD_Caracter                      000000C0
+LCD_Chequea                       000000CE
+LCD_Comando                       000000B4
+LCD_Habilita                      000000E6
+LCD_Init                          00000082
+LCD_Port                          00000078
+LVDCON                            00000FD2
+LVDEN                             00000004
+LVDIE                             00000002
+LVDIF                             00000002
+LVDIN                             00000005
 LVDIP                             00000002
 LVDL0                             00000000
 LVDL1                             00000001
@@ -472,6 +694,7 @@ LVV0                              00000000
 LVV1                              00000001
 LVV2                              00000002
 LVV3                              00000003
+Loop                              000000D8
 MCLR                              00000003
 N                                 00000004
 NOT_A                             00000005
@@ -490,6 +713,12 @@ NOT_T1SYNC                        00000002
 NOT_T3SYNC                        00000002
 NOT_TO                            00000003
 NOT_W                             00000002
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 NOT_WR                            00000001
 NOT_WRITE                         00000002
 Numero                            00000076
@@ -516,12 +745,6 @@ PCFG3                             00000003
 PCL                               00000FF9
 PCLATH                            00000FFA
 PCLATU                            00000FFB
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 10
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 PD                                00000002
 PDC0                              00000000
 PDC1                              00000001
@@ -549,6 +772,12 @@ PORTA                             00000F80
 PORTB                             00000F81
 PORTC                             00000F82
 PORTD                             00000F83
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 PORTE                             00000F84
 POSTDEC0                          00000FED
 POSTDEC1                          00000FE5
@@ -575,12 +804,6 @@ PSP6                              00000006
 PSP7                              00000007
 PSPIE                             00000007
 PSPIF                             00000007
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 11
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 PSPIP                             00000007
 PSPMODE                           00000004
 PSSAC0                            00000002
@@ -588,7 +811,8 @@ PSSAC1                            00000003
 PSSBD0                            00000000
 PSSBD1                            00000001
 PWM1CON                           00000FB7
-Principal                         00000022
+Pausa_5ms                         000000EE
+Principal                         00000026
 R                                 00000002
 RA0                               00000000
 RA1                               00000001
@@ -607,6 +831,12 @@ RB5                               00000005
 RB6                               00000006
 RB7                               00000007
 RBIE                              00000003
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 RBIF                              00000000
 RBIP                              00000000
 RBPU                              00000007
@@ -634,12 +864,6 @@ RD16                              00000007
 RD2                               00000002
 RD3                               00000003
 RD4                               00000004
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 12
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 RD5                               00000005
 RD6                               00000006
 RD7                               00000007
@@ -656,7 +880,7 @@ RXCKP                             00000005
 RXDTP                             00000005
 R_NOT_W                           00000002
 R_W                               00000002
-Resta10                           0000002A
+Resta10                           0000002E
 S                                 00000003
 SBOREN                            00000006
 SCK                               00000003
@@ -666,6 +890,12 @@ SCS0                              00000000
 SCS1                              00000001
 SDA                               00000004
 SDI                               00000004
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 SDO                               00000005
 SEN                               00000000
 SENDB                             00000003
@@ -693,12 +923,6 @@ SSPM1                             00000001
 SSPM2                             00000002
 SSPM3                             00000003
 SSPOV                             00000006
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 13
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 SSPSTAT                           00000FC7
 STATUS                            00000FD8
 STKFUL                            00000007
@@ -725,6 +949,12 @@ T0PS1                             00000001
 T0PS2                             00000002
 T0SE                              00000004
 T13CKI                            00000000
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 T1CKI                             00000000
 T1CKPS0                           00000004
 T1CKPS1                           00000005
@@ -752,12 +982,6 @@ TBLPTR                            00000FF6
 TBLPTRH                           00000FF7
 TBLPTRL                           00000FF6
 TBLPTRU                           00000FF8
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 14
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 TMR0                              00000FD6
 TMR0H                             00000FD7
 TMR0IE                            00000005
@@ -784,6 +1008,12 @@ TMR3H                             00000FB3
 TMR3IE                            00000001
 TMR3IF                            00000001
 TMR3IP                            00000001
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 TMR3L                             00000FB2
 TMR3ON                            00000000
 TO                                00000003
@@ -811,12 +1041,6 @@ TRISB6                            00000006
 TRISB7                            00000007
 TRISC                             00000F94
 TRISC0                            00000000
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 15
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 TRISC1                            00000001
 TRISC2                            00000002
 TRISC3                            00000003
@@ -843,6 +1067,12 @@ TUN1                              00000001
 TUN2                              00000002
 TUN3                              00000003
 TUN4                              00000004
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 TX                                00000006
 TX9                               00000006
 TX9D                              00000000
@@ -868,14 +1098,8 @@ WREN                              00000002
 WRERR                             00000003
 WUE                               00000001
 Z                                 00000002
-_.org_0_0052                      00000052
+_.org_0_0074                      00000074
 _BOREN_NOSLP_2L                   000000FD
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 16
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _BOREN_OFF_2L                     000000F9
 _BOREN_ON_2L                      000000FB
 _BOREN_SBORDIS_2L                 000000FF
@@ -902,6 +1126,12 @@ _CP1_OFF_5L                       000000FF
 _CP1_ON_5L                        000000FD
 _CP2_OFF_5L                       000000FF
 _CP2_ON_5L                        000000FB
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _CP3_OFF_5L                       000000FF
 _CP3_ON_5L                        000000F7
 _CPB_OFF_5H                       000000FF
@@ -929,12 +1159,6 @@ _IDLOC1                           00200001
 _IDLOC2                           00200002
 _IDLOC3                           00200003
 _IDLOC4                           00200004
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 17
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _IDLOC5                           00200005
 _IDLOC6                           00200006
 _IDLOC7                           00200007
@@ -961,6 +1185,12 @@ _PBADEN_ON_3H                     000000FF
 _PWRT_OFF_2L                      000000FF
 _PWRT_ON_2L                       000000FE
 _STVREN_OFF_4L                    000000FE
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-12-2015  17:46:49         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _STVREN_ON_4L                     000000FF
 _WDTPS_1024_2H                    000000F5
 _WDTPS_128_2H                     000000EF
@@ -988,12 +1218,6 @@ _WRT2_OFF_6L                      000000FF
 _WRT2_ON_6L                       000000FB
 _WRT3_OFF_6L                      000000FF
 _WRT3_ON_6L                       000000F7
-MPASM 5.62  /HOME/JOSE/DOCUMENTOS/MIS_PRACTI   9-21-2015  0:46:26         PAGE 18
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _WRTB_OFF_6H                      000000FF
 _WRTB_ON_6H                       000000BF
 _WRTC_OFF_6H                      000000FF
@@ -1004,13 +1228,13 @@ _XINST_OFF_4L                     000000BF
 _XINST_ON_4L                      000000FF
 __18F4620                         00000001
 __DEBUG                           
-__MPLAB_DEBUGGER_SIMULATOR        1
+__MPLAB_DEBUGGER_PICKIT2          1
 centena                           00000023
 decena                            00000024
 unidad                            00000025
 
 Errors   :     0
-Warnings :     5 reported,     0 suppressed
+Warnings :     3 reported,     0 suppressed
 Messages :     0 reported,     0 suppressed
 
 

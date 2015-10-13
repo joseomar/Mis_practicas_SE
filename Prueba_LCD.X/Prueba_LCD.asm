@@ -1,8 +1,5 @@
 ;******************************************************************************
-; Practica 7: Un numero binario de 8 bits es convertido a BCD. El resultado se 
-; guardara en 3 posiciones de la RAM de datos (centenas, decenas y unidades). 
-; Finalmente en resultado de unidades y decenas sera visible en los LEDs conectados
-; al puerto B.
+; Prueba de la libreria del LCD
 ; MCE Starter KIT Student.
 ; Autor: José O. Chelotti
 ;******************************************************************************
@@ -35,17 +32,11 @@
   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode)) 
   
   	cblock 0x20
-	    Centenas
-	    Decenas
-	    Unidades
-	    centena
-	    decena
-	    unidad
 	    Delay1
 	    Delay2
 	endc
     
-Numero EQU d'118'
+Numero EQU d'18'
  
 ; ************** Comandos Constantes de Software *********************
 LCDLinea1   	EQU h'80'	    ; Dir de comienzo linea 1
@@ -68,38 +59,6 @@ LCDCGRAM	EQU h'40C'	    ; Dir origen CGRAM
  
 ;********************************************************************************
 	
-BINaBCD macro Centenas, Decenas, Unidades, w
- 
-Bin_a_BCD:
-	clrf	Centenas	;Limpio las centenas
-	clrf	Decenas		;Limpio las decenas
-	movwf	Unidades	;Cargo el valor a convertir en unidades
-	
-Resta10:
-	movlw	d'10'		;Asigno 10 a w
-	subwf	Unidades,0	;Resto 10 a unidades
-	btfss	STATUS,C    
-	goto	Fin_BIN_BCD
-	
-IncrementaDecenas:
-	movwf	Unidades
-	incf	Decenas
-	movlw	d'10'
-	subwf	Decenas,0
-	btfss	STATUS,C
-	goto	Resta10
-
-IncrementaCentenas:
-	clrf	Decenas
-	incf	Centenas
-	goto	Resta10
-	
-Fin_BIN_BCD:
-	swapf	Decenas,0
-	addwf	Unidades,0
-	return
-    endm
-    
     org 0x20
     
 Inicio: 
@@ -108,18 +67,10 @@ Inicio:
 	movwf	  Delay2
 
 Principal: 
-	movlw	Numero		;Muevo Numero a w
-	;call	Bin_a_BCD	;Llamo a la funcion de conversion
-	BINaBCD centena, decena, unidad, w
-	movwf	PORTB		;Muestro el resultado a traves de los LEDs
 	call	LCD_Port
 	call	LCD_Init
 	call	LCD_Port
-	movf	centena,0
-	call	LCD_Caracter
-	movf	decena,0
-	call	LCD_Caracter
-	movf	unidad,0
+	movlw	Numero		;Muevo Numero a w
 	call	LCD_Caracter
 	goto	$		;Mequedo aca
 		

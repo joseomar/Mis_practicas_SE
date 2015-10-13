@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=BinarioToBCD_macros.X
+PROJECTNAME=Prueba_LCD.X
 
 # Active Configuration
 DEFAULTCONF=default

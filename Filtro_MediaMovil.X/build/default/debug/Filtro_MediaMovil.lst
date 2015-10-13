@@ -1,4 +1,4 @@
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  1
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00035   CONFIG  LVP = ON              ; Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
                       00036   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Ind
                             exed Addressing mode disabled (Legacy mode)) 
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  2
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000064 6A2A           00085         clrf    Buffer+7
 000066 0012           00086         return
                       00087         
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  3
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -170,7 +170,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0000B2 0012           00133         return
                       00134 
                       00135     end
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  4
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  4
 
 
 SYMBOL TABLE
@@ -229,7 +229,7 @@ C1INV                             00000004
 C1OUT                             00000006
 C2INV                             00000005
 C2OUT                             00000007
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  5
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  5
 
 
 SYMBOL TABLE
@@ -288,7 +288,7 @@ CVR1                              00000001
 CVR2                              00000002
 CVR3                              00000003
 CVRCON                            00000FB5
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  6
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  6
 
 
 SYMBOL TABLE
@@ -347,7 +347,7 @@ GIEH                              00000007
 GIEL                              00000006
 GIE_GIEH                          00000007
 GO                                00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  7
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  7
 
 
 SYMBOL TABLE
@@ -406,7 +406,7 @@ IRCF1                             00000005
 IRCF2                             00000006
 IRVST                             00000005
 IVRST                             00000005
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  8
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  8
 
 
 SYMBOL TABLE
@@ -465,7 +465,7 @@ LVDIF                             00000002
 LVDIN                             00000005
 LVDIP                             00000002
 LVDL0                             00000000
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE  9
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE  9
 
 
 SYMBOL TABLE
@@ -524,7 +524,7 @@ PCLATU                            00000FFB
 PD                                00000002
 PDC0                              00000000
 PDC1                              00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 10
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 10
 
 
 SYMBOL TABLE
@@ -583,7 +583,7 @@ PSPIF                             00000007
 PSPIP                             00000007
 PSPMODE                           00000004
 PSSAC0                            00000002
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 11
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 11
 
 
 SYMBOL TABLE
@@ -642,7 +642,7 @@ RD4                               00000004
 RD5                               00000005
 RD6                               00000006
 RD7                               00000007
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 12
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 12
 
 
 SYMBOL TABLE
@@ -701,7 +701,7 @@ SSPM3                             00000003
 SSPOV                             00000006
 SSPSTAT                           00000FC7
 STATUS                            00000FD8
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 13
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 13
 
 
 SYMBOL TABLE
@@ -760,7 +760,7 @@ TBLPTRH                           00000FF7
 TBLPTRL                           00000FF6
 TBLPTRU                           00000FF8
 TMR0                              00000FD6
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 14
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 14
 
 
 SYMBOL TABLE
@@ -819,7 +819,7 @@ TRISB7                            00000007
 TRISC                             00000F94
 TRISC0                            00000000
 TRISC1                            00000001
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 15
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 15
 
 
 SYMBOL TABLE
@@ -878,7 +878,7 @@ _BOREN_NOSLP_2L                   000000FD
 _BOREN_OFF_2L                     000000F9
 _BOREN_ON_2L                      000000FB
 _BOREN_SBORDIS_2L                 000000FF
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 16
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 16
 
 
 SYMBOL TABLE
@@ -937,7 +937,7 @@ _IDLOC4                           00200004
 _IDLOC5                           00200005
 _IDLOC6                           00200006
 _IDLOC7                           00200007
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 17
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 17
 
 
 SYMBOL TABLE
@@ -996,7 +996,7 @@ _WRT3_ON_6L                       000000F7
 _WRTB_OFF_6H                      000000FF
 _WRTB_ON_6H                       000000BF
 _WRTC_OFF_6H                      000000FF
-MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-10-2015  21:18:59         PAGE 18
+MPASM 5.62  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   10-11-2015  17:03:36         PAGE 18
 
 
 SYMBOL TABLE
@@ -1008,6 +1008,8 @@ _WRTD_ON_6H                       0000007F
 _XINST_OFF_4L                     000000BF
 _XINST_ON_4L                      000000FF
 __18F4620                         00000001
+__DEBUG                           
+__MPLAB_DEBUGGER_SIMULATOR        1
 poll                              0000003A
 ret1                              000000A6
 temp                              0000002F

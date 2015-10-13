@@ -1,0 +1,73 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Mon Oct 12 17:46:49 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .cinit    romdata   0x000000    program   0x000002
+                   .org_0       code   0x000020    program   0x0000e0
+                    dbgP0       code   0x00fdc0    program   0x000240
+.config_300001_BUILD/DEFAULT/DEBUG/BINARIOTOBCD    romdata   0x300001    program   0x000001
+.config_300002_BUILD/DEFAULT/DEBUG/BINARIOTOBCD    romdata   0x300002    program   0x000001
+.config_300003_BUILD/DEFAULT/DEBUG/BINARIOTOBCD    romdata   0x300003    program   0x000001
+.config_300005_BUILD/DEFAULT/DEBUG/BINARIOTOBCD    romdata   0x300005    program   0x000001
+.config_300006_BUILD/DEFAULT/DEBUG/BINARIOTOBCD    romdata   0x300006    program   0x000001
+                    dbgD0      udata   0x000ef4       data   0x00000c
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000001      
+                            0x000020    0x0000ff      
+                            0x00fdc0    0x00ffff      
+                            0x300001    0x300003      
+                            0x300005    0x300006      
+            807 out of 66584 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                Bin_a_BCD   0x000028    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+              Fin_BIN_BCD   0x00004e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+       IncrementaCentenas   0x000046    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+        IncrementaDecenas   0x000038    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                   Inicio   0x000020    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+             LCD_Caracter   0x0000c0    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+              LCD_Chequea   0x0000ce    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+              LCD_Comando   0x0000b4    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+             LCD_Habilita   0x0000e6    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                 LCD_Init   0x000082    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                 LCD_Port   0x000078    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                     Loop   0x0000d8    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                Pausa_5ms   0x0000ee    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                Principal   0x000026    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                  Resta10   0x00002e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+             _.org_0_0074   0x000074    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Inicio   0x000020    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                Principal   0x000026    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                Bin_a_BCD   0x000028    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                  Resta10   0x00002e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+        IncrementaDecenas   0x000038    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+       IncrementaCentenas   0x000046    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+              Fin_BIN_BCD   0x00004e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+             _.org_0_0074   0x000074    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                 LCD_Port   0x000078    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                 LCD_Init   0x000082    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+              LCD_Comando   0x0000b4    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+             LCD_Caracter   0x0000c0    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+              LCD_Chequea   0x0000ce    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                     Loop   0x0000d8    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+             LCD_Habilita   0x0000e6    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+                Pausa_5ms   0x0000ee    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_macros.X/BinarioToBCD.asm
+
+

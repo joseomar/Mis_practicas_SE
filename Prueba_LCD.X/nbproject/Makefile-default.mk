@@ -30,12 +30,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=cof
 DEBUGGABLE_SUFFIX=cof
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=cof
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 # Object Directory
@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=BinarioToBCD.asm
+SOURCEFILES_QUOTED_IF_SPACED=Prueba_LCD.asm
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/BinarioToBCD.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/BinarioToBCD.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Prueba_LCD.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/Prueba_LCD.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/BinarioToBCD.o
+OBJECTFILES=${OBJECTDIR}/Prueba_LCD.o
 
 # Source Files
-SOURCEFILES=BinarioToBCD.asm
+SOURCEFILES=Prueba_LCD.asm
 
 
 CFLAGS=
@@ -75,42 +75,42 @@ FIXDEPS=fixDeps
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
-	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=18f4620
 MP_LINKER_DEBUG_OPTION=-r=ROM@0xFDC0:0xFFFF -r=RAM@GPR:0xEF4:0xEFF
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/BinarioToBCD.o: BinarioToBCD.asm  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/Prueba_LCD.o: Prueba_LCD.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/BinarioToBCD.o.d 
-	@${RM} ${OBJECTDIR}/BinarioToBCD.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/BinarioToBCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PICKIT2=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/BinarioToBCD.lst\\\" -e\\\"${OBJECTDIR}/BinarioToBCD.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/BinarioToBCD.o\\\" \\\"BinarioToBCD.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/BinarioToBCD.o"
-	@${FIXDEPS} "${OBJECTDIR}/BinarioToBCD.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
+	@${RM} ${OBJECTDIR}/Prueba_LCD.o.d 
+	@${RM} ${OBJECTDIR}/Prueba_LCD.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/Prueba_LCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PICKIT2=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/Prueba_LCD.lst\\\" -e\\\"${OBJECTDIR}/Prueba_LCD.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/Prueba_LCD.o\\\" \\\"Prueba_LCD.asm\\\" 
+	@${DEP_GEN} -d "${OBJECTDIR}/Prueba_LCD.o"
+	@${FIXDEPS} "${OBJECTDIR}/Prueba_LCD.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 else
-${OBJECTDIR}/BinarioToBCD.o: BinarioToBCD.asm  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/Prueba_LCD.o: Prueba_LCD.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/BinarioToBCD.o.d 
-	@${RM} ${OBJECTDIR}/BinarioToBCD.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/BinarioToBCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/BinarioToBCD.lst\\\" -e\\\"${OBJECTDIR}/BinarioToBCD.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/BinarioToBCD.o\\\" \\\"BinarioToBCD.asm\\\" 
-	@${DEP_GEN} -d "${OBJECTDIR}/BinarioToBCD.o"
-	@${FIXDEPS} "${OBJECTDIR}/BinarioToBCD.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
+	@${RM} ${OBJECTDIR}/Prueba_LCD.o.d 
+	@${RM} ${OBJECTDIR}/Prueba_LCD.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/Prueba_LCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/Prueba_LCD.lst\\\" -e\\\"${OBJECTDIR}/Prueba_LCD.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/Prueba_LCD.o\\\" \\\"Prueba_LCD.asm\\\" 
+	@${DEP_GEN} -d "${OBJECTDIR}/Prueba_LCD.o"
+	@${FIXDEPS} "${OBJECTDIR}/Prueba_LCD.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
 endif
 
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-dist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
+dist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION)  -w -x -u_DEBUG -z__ICD2RAM=1 -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"   -z__MPLAB_BUILD=1  -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_PICKIT2=1 $(MP_LINKER_DEBUG_OPTION) -odist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
+	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION)  -w -x -u_DEBUG -z__ICD2RAM=1 -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"   -z__MPLAB_BUILD=1  -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_PICKIT2=1 $(MP_LINKER_DEBUG_OPTION) -odist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
 else
-dist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+dist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION)  -w  -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"   -z__MPLAB_BUILD=1  -odist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
+	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION)  -w  -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"   -z__MPLAB_BUILD=1  -odist/${CND_CONF}/${IMAGE_TYPE}/Prueba_LCD.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}     
 endif
 
 
