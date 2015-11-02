@@ -1,11 +1,11 @@
 ;******************************************************************************
-; Prueba de la libreria del LCD
+; Prueba de la libreria RS232
 ; MCE Starter KIT Student.
 ; Autor: José O. Chelotti
 ;******************************************************************************
     
 #include <p18f4620.inc>
-#include <LCD.inc>
+#include <RS232.inc>
     
   ; CONFIG1H
   CONFIG  OSC = XT              ; Oscillator Selection bits (XT oscillator)
@@ -32,32 +32,24 @@
   CONFIG  LVP = ON              ; Single-Supply ICSP Enable bit (Single-Supply ICSP enabled)
   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode)) 
   
-  	cblock 0x20
-	    Delay1
-	    Delay2
-	    Dato
-	    Comando
-	endc
-    
-Numero EQU h'0'
-	
-    org 0x20
-    
-Inicio: 
-	clrf	TRISB		;Configuro el puerto B como salida (LEDs)
-	movlw	d'7'
-	movwf	Delay2
-	call	Pausa_5ms
-	call	Pausa_5ms
-	call	Pausa_5ms
-	
-	call	LCD_Port
-	call	LCD_Init
-	
-Principal: 	
-	call	LCD_Init
-	movlw	Numero		;Muevo Numero a w
-	call	LCD_Caracter
-	goto	$		;Mequedo aca
-	
-	end
+    cblock 0x20
+Delay1               ; Definimos 2 registros que usaremos
+Delay2               ; en los retardos (los mismo tendran 16bits y estaran consecutivos es decir
+     endc	     ; Delay1 ocupará la posición 0x20h y Delay2 la 0x21h)
+     
+     org 0x00
+Inicio:
+     bcf       TRISB,0        ; RB0 salida
+LoopPrincipal:
+     btg       PORTB,0        ; Encendemos led conectado a RB0
+     call      LoopEncendido
+     goto      LoopPrincipal   ; y volvemos todo de nuevo...
+     
+LoopEncendido:
+     decfsz    Delay1,1       ; Decremento Delay1 hasta llegar a cero
+     goto      LoopEncendido  ; cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
+     decfsz    Delay2,1       ; el proximo loop toma 3 ciclos en volver al primer loop, asi 256 veces
+     goto      LoopEncendido  ; (768+3) * 256 = 197376 instrucciones / con ciclos de 1uSeg = 0.197 seg
+     return
+     
+     end

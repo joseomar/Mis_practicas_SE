@@ -35,43 +35,72 @@
     cblock  0x20
 	Delay1
 	Delay2
+	aux
 	Contador
+	Hello:5
     endc
   
-    org	0x20
+    org	0x00
     
 Inicializacion:
-		clrf	TRISD
-		movlw	h'F8'
-		andwf	TRISE
 		clrf	Contador
+		clrf	Delay1
+		clrf	Delay2
 		clrf	PORTD
 		clrf	PORTE
-LongDelay:
+		clrf	TRISD
+		movlw	h'F8'
+		andwf	TRISE,f
+
+		movlw	Hello
+		movwf	FSR0
+		movff	A'H',Hello
+		movff	A'E',Hello+1
+		movff	A'L',Hello+2
+		movff	A'L',Hello+3
+		movff	A'O',Hello+4
+LongDelay:				;Retardo en total de 197376 uS
 		call	ShortDelay
 		decfsz	Delay1,f
 		goto	LongDelay
 FunctionSet:
-		bcf	PORTE,1		;RS a 0 (Dato tomado como comando)
-		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
-		movlw	h'38'		;Comando para el seteo de funcion (ver tabla comando)
-		movwf	PORTD		;Mandamos el comando a la linea de datos
+		bcf	PORTE,1		;RS a 0 (info tomada como comando)
+		bcf	PORTE,0		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
+		movlw	h'28'		;Comando para el seteo de funcion (ver tabla comando)
+		call	Env_reg
 		call	Pulse_e		;Pone E a alto por un tiempo determinado
 		call	ShortDelay	;Retardo mientras el LCD esta ocupado
 DisplayOn:
-		bcf	PORTE,1		;RS a 0 (Dato tomado como comando)
-		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
+		bcf	PORTE,1		;RS a 0 (info tomada como comando)
+		bcf	PORTE,0		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
 		movlw	h'0F'		;Display on/off y comando cursor (ver tabla comando)
-		movwf	PORTD		;Mandamos el comando a la linea de datos
+		call	Env_reg
 		call	Pulse_e		;Pone E a alto por un tiempo determinado
 		call	ShortDelay	;Retardo mientras el LCD esta ocupado
+		
+Caract_enter:
+		bcf	PORTE,1		;RS a 0 (info tomada como comando)
+		bcf	PORTE,0		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
+		movlw	h'07'		;Display on/off y comando cursor (ver tabla comando)
+		call	Env_reg
+		call	Pulse_e		;Pone E a alto por un tiempo determinado
+		call	ShortDelay	;Retardo mientras el LCD esta ocupado
+		
+ClearDisplay:
+		bcf	PORTE,1		;RS a 0 (info tomada como comando)
+		bcf	PORTE,0		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
+		movlw	h'01'		;Display on/off y comando cursor (ver tabla comando)
+		call	Env_reg
+		call	Pulse_e		;Pone E a alto por un tiempo determinado
+		call	ShortDelay	;Retardo mientras el LCD esta ocupado
+		
 		clrf	Contador
 Message:    
 		movf	Contador,w
-		call	Text
-		bsf	PORTE,1		;RS a 1 (Dato tomado como dato)
-		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
-		movwf	PORTD		;Mandamos el comando a la linea de datos
+		bsf	PORTE,1		;RS a 1 (info tomada como dato)
+		bcf	PORTE,0		;aca podria ir el seteo de read/write pero en la placa este pin esta a masa
+		movf	INDF0,0		;Mandamos el comando a w
+		call	Env_reg
 		call	Pulse_e		;Pone E a alto por un tiempo determinado
 		call	ShortDelay	;Retardo mientras el LCD esta ocupado
 		incf	Contador,w
@@ -79,6 +108,7 @@ Message:
 		btfsc	STATUS,Z
 		goto	Stop		;Si el contador llego a 5 salta a "Stop"
 		incf	Contador,f
+		incf	FSR0,f
 		goto	Message
 Stop:
 		goto	Stop
@@ -90,16 +120,16 @@ ShortDelay:
 		retlw	0
 		
 Pulse_e:
-		bsf	PORTE,1		;RS a 1 (Dato tomado como dato)
+		bsf	PORTE,2		;E a 1 
 		nop			;Demora 1 ciclo de reloj
-		bcf	PORTE,1		;RS a 0 (Dato tomado como comando)
+		bcf	PORTE,2		;E a 0 
 		retlw	0
-Text:		
-		addwf	PCL,f		;Va sumando w al program counter
-		retlw	'H'
-		retlw	'E'
-		retlw	'L'
-		retlw	'L'
-		retlw	'O'
-	end	
+Env_reg:
+		movwf	aux
+		movwf	PORTD
+		swapf	aux,w
+		movwf	PORTD
+		return
+		
+		end	
 		

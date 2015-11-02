@@ -36,10 +36,10 @@
   CONFIG  XINST = OFF           ; Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode)) 
   
     cblock  0x20
-	Display:1			; Variable que guarda el estado de los LEDs
+	Display:1		; Variable que guarda el estado de los LEDs
 	Delay:2			; Registro de 2 bytes para retardo
-	Buffer:8			; Buffer de 8 bytes para almacenar los 8 resultados
-	SumaTotal:2			; Suma de los ultimos 8 valores
+	Buffer:8		; Buffer de 8 bytes para almacenar los 8 resultados
+	SumaTotal:2		; Suma de los ultimos 8 valores
 	Rotar:2			; Registro auxiliar para dividir por 8 realizando una rotación.
 	temp:1			; Almacena temporalmente el resultado de la conversión
     endc
@@ -74,7 +74,7 @@ Ini_Filtro:
 	movlw	Buffer
 	movwf	FSR0		; Cargo en FSR (puntero) la primera direccion del registro buffer
 	clrf	SumaTotal	; Limpio el primer byte (byte bajo) de clrf SumaTotal
-	clrf	SumaTotal+1	; Limpio el segundo byte (byte bajo) de clrf SumaTotal
+	clrf	SumaTotal+1	; Limpio el segundo byte (byte alto) de clrf SumaTotal
 	clrf	Buffer		; Limpio los 8 bytes del buffer
 	clrf	Buffer+1
 	clrf	Buffer+2
