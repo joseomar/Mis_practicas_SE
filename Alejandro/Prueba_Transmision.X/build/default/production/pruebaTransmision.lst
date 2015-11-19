@@ -1,0 +1,455 @@
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; ******************************************************************************************************
+                            *
+                      00002 ; * MODELO DE PIC: 12F675                                                                               
+                            *
+                      00003 ; * IMPLEMENTACIÓN DE UNA UART POR SOFTWARE (Solo Transmisión)                                          
+                            *
+                      00004 ; * UTILIZO EL CRISTAL INTERNO DEL uC. EL MISMO ES DE 4 Mhz.                                            
+                            *
+                      00005 ; * VELOCIDAD DE TRANSMISIÓN: 1200 bps                                                                  
+                            *
+                      00006 ; * PERIODO DE TIEMPO DE TRANSICIÓN DE BIT: 1/1200 bps = 833,33 us                                      
+                            *
+                      00007 ; * ALUMNO: Alejandro Debus                                                                             
+                            *
+                      00008 ; ******************************************************************************************************
+                            *
+                      00009 
+                      00010 #include "p12f675.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Oct 21 2015
+                      00005 ;  MPASM PIC12F675 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2015 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00367         LIST
+                      00011 
+                      00012     ; Configuración
+2007   3FD5           00013     __CONFIG _FOSC_INTRCCLK & _WDTE_OFF & _PWRTE_OFF & _MCLRE_OFF & _BOREN_ON & _CP_OFF & _CPD_OFF
+                      00014 
+                      00015     ; Para que no aparezcan mensajes que no use el banco 0
+                      00016     errorlevel -302
+                      00017     
+                      00018     cblock 0x20
+  00000020            00019         dato                        ; Para guardar el dato a transmitir
+  00000021            00020         nbits                       ; Numero de bits a transmitir
+  00000022            00021         num                         ; Carga del TIMER 0
+  00000023            00022         delay1
+  00000024            00023         delay2
+                      00024     endc
+                      00025 
+                      00026     org 0x00
+                      00027  
+                      00028 #define UART_TX GPIO,5              ; Pin 5 como transmisión
+                      00029 ;#define UART_RX GPIO,2             ; Pin 2 como recepción
+                      00030 #define UART_TX_DIR TRISIO,5        ; Pin de dirección de registro para transmisión
+                      00031 ;#define UART_RX_DIR TRISIO,2       ; Pin de dirección de registro para recepción
+                      00032     
+0000   2???           00033     goto Principal
+                      00034     
+0001                  00035 Inicializa_UART:
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00036     ; Configura TMR0
+0001   1683           00037     bsf STATUS,RP0                  ; Selecciono Banco 1
+0002   3001           00038     movlw b'00000001'               ; Prescaler 1:4
+0003   0081           00039     movwf OPTION_REG
+0004   302F           00040     movlw d'47'                     ; Carga del TMR0
+0005   00A2           00041     movwf num
+                      00042     
+0006   1283           00043     bcf STATUS,RP0                  ; Selecciono Banco 0
+0007   3008           00044     movlw d'8'                      ; Cantidad de bits que se van a transmitir.
+0008   00A1           00045     movwf nbits
+0009   1685           00046     bsf UART_TX                     ; En el tiempo ocioso (idle state) queda en estado lógico 1.
+000A   1683           00047     bsf STATUS,RP0                  ; Selecciono Banco 1
+000B   1285           00048     bcf UART_TX_DIR                 ; Como salida (para la transmisión)
+                      00049     ;bsf UART_RX_DIR                ; Como entrada (para la recepción)
+000C   1283           00050     bcf STATUS,RP0                  ; Selecciono Banco 0 (vuelvo como una buena práctica de programación
+                            )
+000D   0008           00051     return
+                      00052     
+                      00053     
+000E                  00054 Transmite_UART:
+                      00055     ; Primero se transmite el "bit de inicio" que es un 0
+000E   1283           00056     bcf STATUS,RP0                  ; Selecciono Banco 0
+000F   00A0           00057     movwf dato                      ; Guardo en "dato" el byte a transmitir
+                      00058     ; Envía "bit de inicio"         ;
+0010   1285           00059     bcf UART_TX                     ; Envía bit de inicio
+0011   2???           00060     call Temporizador0
+0012                  00061 Envia_Dato:
+                      00062     ; Comienza a enviar el "dato" (8 bits)
+0012   0CA0           00063     rrf dato,1                      ; Rotación a la derecha
+0013   1803           00064     btfsc STATUS,C                  ; Comprueba si el bit de CARRY es cero
+0014   2???           00065     goto Carry_Uno                  ; El bit de Carry NO es cero
+0015   2???           00066     goto Carry_Cero                 ; El bit de Carry ES cero
+                      00067 
+0016                  00068 Carry_Cero:
+0016   1285           00069     bcf UART_TX                     ; Envía un "0"
+0017   2???           00070     call Temporizador0              ; Tiempo de transición
+0018   2???           00071     goto Verifica_Fin
+                      00072     
+0019                  00073 Carry_Uno:
+0019   1685           00074     bsf UART_TX                     ; Envía un "1"
+001A   2???           00075     call Temporizador0              ; Tiempo de transición
+001B   2???           00076     goto Verifica_Fin
+                      00077     
+001C                  00078 Verifica_Fin:
+001C   0BA1           00079     decfsz nbits,1                  ; Decrementa nbits y verifica si termino. De ser así envía el bit de
+                             stop
+001D   2???           00080     goto Envia_Dato                 ; No termino. Envia el siguiente bit
+001E   1685           00081     bsf UART_TX                     ; Envía bit de fin
+001F   2???           00082     call Temporizador0              ; Tiempo de transicion
+0020   0008           00083     return
+                      00084     ;goto Termina                   ; end del programa (lo pongo para hacer pruebas cortas)
+                      00085     
+                      00086 ; T_temp= [ T_ciclomaquina ] * Prescaler * [ (Carga_maxima_registro (8 o 16 bits) - cargaTMR0 ] 
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00087 ; El TMR0 es de 8 bits. Por tanto, su carga maxima es de 256
+                      00088 ; Para T(temp)=833 us que es para transmision a 1200 baudios, la cargaTMR0 es igual a 47 (aprox)
+                      00089 ; A este valor lo cargo al inicializar la UART
+0021                  00090 Temporizador0:
+0021   0822           00091     movfw num                       ; Carga en W el valor de carga del TMR0
+0022   0081           00092     movwf TMR0                      ; Cargo al TMR0 el valor de carga
+0023                  00093 Bucle:
+0023   1D0B           00094     btfss INTCON,T0IF               ; Verifica si ya desbordó el TMR0
+0024   2???           00095     goto Bucle                      ; El TMR0 no desbordó
+0025   110B           00096     bcf INTCON,T0IF                 ; Limpia la bandera de desborde del registro
+0026   0008           00097     return
+                      00098     
+                      00099     
+                      00100 ; Configuracion de puertos del pic y otros
+0027                  00101 Configuracion:
+0027   1683           00102     bsf STATUS,RP0                  ; Selecciona Banco 1
+0028   019F           00103     clrf ANSEL                      ; Pone a todos los puertos como digitales
+0029   1283           00104     bcf STATUS,RP0                  ; Selecciono Banco 0
+002A   019F           00105     clrf ADCON0                     ; Apaga el ADC
+002B   3007           00106     movlw 0x07
+002C   0099           00107     movwf CMCON                     ; Apaga el comparador
+002D   1683           00108     bsf STATUS,RP0                  ; Selecciona Banco 1
+002E   0199           00109     clrf VRCON                      ; Apaga voltaje de referencia
+002F   3008           00110     movlw 0x08
+0030   0085           00111     movwf TRISIO                    ; Todos los pines como salida, salvo el MCLR (de reset)
+0031   1283           00112     bcf STATUS,RP0                  ; Selecciona Banco 0
+0032   0185           00113     clrf GPIO                       ; Todos en 0
+0033   0008           00114     return
+                      00115     
+                      00116     
+0034                  00117 Principal:
+0034   2???           00118     call Configuracion
+                      00119     
+0035   2???           00120     call Inicializa_UART
+0036   3041           00121     movlw 'A'
+0037   2???           00122     call Transmite_UART
+                      00123 
+0038   2???           00124     call Inicializa_UART
+0039   3042           00125     movlw 'B'
+003A   2???           00126     call Transmite_UART
+                      00127 
+003B   2???           00128      call Inicializa_UART
+003C   3043           00129     movlw 'C'
+003D   2???           00130     call Transmite_UART
+                      00131     
+003E   2???           00132     call Retardo
+                      00133 
+003F   2???           00134     call Inicializa_UART
+0040   3044           00135     movlw 'D'
+0041   2???           00136     call Transmite_UART
+                      00137     
+0042   2???           00138     call Inicializa_UART
+0043   3045           00139     movlw 'E'
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0044   2???           00140     call Transmite_UART
+                      00141     
+0045   2???           00142     call Retardo
+0046   2???           00143     call Retardo
+                      00144     
+0047   2???           00145     call Inicializa_UART
+0048   3046           00146     movlw 'F'
+0049   2???           00147     call Transmite_UART
+                      00148     
+004A   2???           00149     goto Termina
+                      00150 
+                      00151     
+004B                  00152 Retardo:
+Message[305]: Using default destination of 1 (file).
+004B   0BA3           00153     decfsz delay1
+004C   2???           00154     goto Retardo
+Message[305]: Using default destination of 1 (file).
+004D   0BA4           00155     decfsz delay2
+004E   2???           00156     goto Retardo
+004F   0008           00157     return
+                      00158     
+0050                  00159 Termina:
+0050   2???           00160     goto Termina
+                      00161 
+3FD5                  00162     end
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS2                              00000002
+ANS3                              00000003
+ANSEL                             0000009F
+Bucle                             00000023
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CHS0                              00000002
+CHS1                              00000003
+CINV                              00000004
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+COUT                              00000006
+Carry_Cero                        00000016
+Carry_Uno                         00000019
+Configuracion                     00000027
+DC                                00000001
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+Envia_Dato                        00000012
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+GP0                               00000000
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+GP1                               00000001
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+Inicializa_UART                   00000001
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_GPPU                          00000007
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OSCCAL                            00000090
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PS0                               00000000
+PS1                               00000001
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PS2                               00000002
+PSA                               00000003
+Principal                         00000034
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+Retardo                           0000004B
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+TRISIO0                           00000000
+TRISIO1                           00000001
+TRISIO2                           00000002
+TRISIO3                           00000003
+TRISIO4                           00000004
+TRISIO5                           00000005
+Temporizador0                     00000021
+Termina                           00000050
+Transmite_UART                    0000000E
+UART_TX                           GPIO,5
+UART_TX_DIR                       TRISIO,5
+VCFG                              00000006
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+Verifica_Fin                      0000001C
+W                                 00000000
+WPU                               00000095
+WPU0                              00000000
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F675                          00000001
+dato                              00000020
+delay1                            00000023
+delay2                            00000024
+nbits                             00000021
+num                               00000022
+
+MPASM 5.64  /HOME/JOSE/CARPETA_GITHUB/MIS_PR   11-17-2015  16:36:34         PAGE  9
+
+
+
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     2 reported,     5 suppressed
+
+

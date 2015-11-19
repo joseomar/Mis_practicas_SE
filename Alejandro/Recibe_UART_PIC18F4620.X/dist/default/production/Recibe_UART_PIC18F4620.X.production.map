@@ -1,0 +1,76 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Tue Nov 17 11:08:45 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000004
+                   .cinit    romdata   0x000004    program   0x000002
+                   .org_1       code   0x000008    program   0x000136
+.config_300001_BUILD/DEFAULT/PRODUCTION/RECIBE_    romdata   0x300001    program   0x000001
+.config_300002_BUILD/DEFAULT/PRODUCTION/RECIBE_    romdata   0x300002    program   0x000001
+.config_300003_BUILD/DEFAULT/PRODUCTION/RECIBE_    romdata   0x300003    program   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000005      
+                            0x000008    0x00013d      
+                            0x300001    0x300003      
+            319 out of 66584 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    Delay   0x000128    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+         Escribir_Presion   0x000088    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+                      ISR   0x00002a    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\recibe_uart_pic18f4620.asm
+                   Inicio   0x00000c    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\recibe_uart_pic18f4620.asm
+               LCD_Borrar   0x000072    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+             LCD_Caracter   0x000060    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+              LCD_Comando   0x00007a    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+           LCD_Inicializa   0x000032    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+                Principal   0x000026    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\recibe_uart_pic18f4620.asm
+                 Re_200us   0x000106    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                  Re_20ms   0x0000e6    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                   Re_2ms   0x000114    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                  Re_50us   0x000122    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                   Re_5ms   0x0000f8    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                 Re_Delay   0x000130    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+            Retardo_200us   0x000102    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+             Retardo_20ms   0x0000de    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+              Retardo_2ms   0x00010c    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+             Retardo_50us   0x00011e    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+              Retardo_5ms   0x0000f0    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Inicio   0x00000c    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\recibe_uart_pic18f4620.asm
+                Principal   0x000026    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\recibe_uart_pic18f4620.asm
+                      ISR   0x00002a    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\recibe_uart_pic18f4620.asm
+           LCD_Inicializa   0x000032    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+             LCD_Caracter   0x000060    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+               LCD_Borrar   0x000072    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+              LCD_Comando   0x00007a    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+         Escribir_Presion   0x000088    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\LCD8_LIB.inc
+             Retardo_20ms   0x0000de    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                  Re_20ms   0x0000e6    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+              Retardo_5ms   0x0000f0    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                   Re_5ms   0x0000f8    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+            Retardo_200us   0x000102    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                 Re_200us   0x000106    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+              Retardo_2ms   0x00010c    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                   Re_2ms   0x000114    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+             Retardo_50us   0x00011e    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                  Re_50us   0x000122    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                    Delay   0x000128    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+                 Re_Delay   0x000130    program     static C:\Users\aleja\MPLABXProjects\Recibe_UART_PIC18F4620.X\RETARDOS.inc
+
+

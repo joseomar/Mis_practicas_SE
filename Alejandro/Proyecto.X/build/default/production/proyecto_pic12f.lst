@@ -1,0 +1,578 @@
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; ******************************************************************************************************
+                            *
+                      00002 ; * MODELO DE PIC: 12F675                                                                               
+                            *
+                      00003 ; * IMPLEMENTACION DEL UNA CONVERSION AD, UTILIZANDO UN SENSOR DE TEMPERATURA MPX4250 (FREESCALE).      
+                            *
+                      00004 ; * SE REALIZO UNA INTERRUPCION POR POR DESBORDAMIENTO DEL TMR0 (TIMER 0)                               
+                            *
+                      00005 ; * EL RESULTADO DE LA CONVERSION SE MUESTRA EN 3 LEDS (SOLO A MODO ILUSTRATIVO PARA VER QUE FUNCIONA)  
+                            *
+                      00006 ; ******************************************************************************************************
+                            *
+                      00007     
+                      00008 #include "p12f675.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Oct 21 2015
+                      00005 ;  MPASM PIC12F675 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2015 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00367         LIST
+                      00009     
+                      00010     errorlevel -302
+                      00011 
+                      00012     ; Configuración
+2007   3FD5           00013     __CONFIG _FOSC_INTRCCLK & _WDTE_OFF & _PWRTE_OFF & _MCLRE_OFF & _BOREN_ON & _CP_OFF & _CPD_OFF
+                      00014     
+                      00015     cblock 0x20
+                      00016         ; La variable suma es de 16 bits (con 8 bits solo puedo almacenar hasta 255 en decimal)
+  00000020            00017         suma:2                    ; Variable en la que sumo los valores de la conversion para luego calc
+                            ular la media
+  00000022            00018         arreglo:8                 ; Vector en el que guardo los valores de cada conversion
+  0000002A            00019         valor                     ; Auxiliar en el que voy guardando el valor actual de la conversion
+  0000002B            00020         division:2
+  0000002D            00021         ndatos                    ; Cantidad de datos
+  0000002E            00022         media                     ; Variable que va a contener la media calculada
+  0000002F            00023         delay1
+  00000030            00024         delay2
+                      00025     endc
+                      00026 
+                      00027     org 0x00
+                      00028     
+0000   2???           00029     goto Inicio
+                      00030     
+                      00031     ;org 0x04   
+                      00032     
+                      00033     ;goto Interrupcion
+                      00034     
+                      00035     
+0001                  00036 Inicio:
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0001   1683           00037     bsf STATUS,RP0          ; Selecciono el Banco 1
+0002   0185           00038     clrf TRISIO             ; Pone a GPIO como salida (para los LEDS)
+0003   1405           00039     bsf GPIO,GPIO0          ; GP0 como entrada (para sensor de presión)
+                      00040     
+                      00041     ; Configuracion ADC
+0004   3011           00042     movlw b'00010001'       ; <6:4> (Fosc/4) 0: Entrada analogica (del sensor)
+0005   009F           00043     movwf ANSEL
+0006   1283           00044     bcf STATUS,RP0          ; Selecciono Banco 0
+0007   3001           00045     movlw b'00000001'       ; (7: Justificado izq em 0) (0: Enable ADC)
+0008   009F           00046     movwf ADCON0
+                      00047     
+                      00048     ; Configuracion de la Interrupcion
+                      00049 ;    bsf STATUS,RP0         ; Selecciono Banco 1
+                      00050 ;    movlw b'00000001'       ; Configuracion de OPTION_REG
+                      00051 ;    movwf OPTION_REG
+                      00052 ;    bsf STATUS,RP0
+                      00053 ;    movlw b'10100000'
+                      00054 ;    movwf INTCON
+                      00055     
+                      00056     ; Cargo en FSR la primera direccion del vector "arreglo"
+0009   3022           00057     movlw arreglo
+000A   0084           00058     movwf FSR
+                      00059     ; Pongo a cero todo el arreglo
+000B   01A2           00060     clrf arreglo
+000C   01A3           00061     clrf arreglo+1
+000D   01A4           00062     clrf arreglo+2
+000E   01A5           00063     clrf arreglo+3
+000F   01A6           00064     clrf arreglo+4
+0010   01A7           00065     clrf arreglo+5
+0011   01A8           00066     clrf arreglo+6
+0012   01A9           00067     clrf arreglo+7
+                      00068     ; Pongo a cero la variable suma
+0013   01A0           00069     clrf suma
+0014   01A1           00070     clrf suma+1
+                      00071     
+0015   3008           00072     movlw d'8'
+0016   00AD           00073     movwf ndatos
+                      00074     
+0017   2???           00075     call Retardo
+                      00076     
+                      00077     
+0018                  00078 Principal:
+                      00079     ; Como el resultado de la conversion esta en W llama a media movil
+0018   1283           00080     bcf STATUS,RP0              ; Selecciona Banco 0
+0019   2???           00081     call Retardo
+001A   2???           00082     call Retardo
+                      00083     
+001B   149F           00084     bsf ADCON0,GO               ; ***
+001C   1C9F           00085     btfss ADCON0,GO             ; Verifica si la conversion termino ***
+001D   2???           00086     goto $-1                    ; La conversion no termino  ***
+001E   1683           00087     bsf STATUS,RP0              ; Selecciona Banco 1    ****
+001F   081E           00088     movf ADRESH,w               
+0020   2???           00089     call Media_Movil            
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00090         
+0021   2???           00091     call Inicializa_UART
+                      00092     ;movf ADRESH,w
+                      00093     ;movfw media                        ; ***
+0022   082E           00094     movfw media 
+0023   2???           00095     call Transmite_UART         ; ***
+                      00096 
+                      00097     
+0024   0BAD           00098     decfsz ndatos,1
+0025   2???           00099     goto Principal
+0026   01A0           00100     clrf suma
+0027   01A1           00101     clrf suma+1
+0028   3008           00102     movlw d'8'
+0029   00AD           00103     movwf ndatos
+002A   2???           00104     goto Principal
+                      00105     
+                      00106     
+                      00107 ;Interrupcion:
+                      00108 ;    bcf STATUS,RP0         ; Selecciono Banco 0
+                      00109 ;    bsf ADCON0,GO          ; Inicio a la conversion
+                      00110 ;    bsf STATUS,RP0         ; Selecciono Banco 1
+                      00111 ;    movf ADRESH,w
+                      00112 ;    bcf INTCON,T0IF        ; Limpia la bandera
+                      00113 ;    retfie
+                      00114     
+                      00115     
+002B                  00116 Media_Movil:
+                      00117     ;movwf valor
+                      00118     ;movf INDF,w                    
+                      00119     ;subwf suma,f           ; Resto a suma el nuevo valor (para no comprobar en principal si tengo que b
+                            orrar suma)
+                      00120     ;btfss STATUS,C
+                      00121     ;decf suma+1,f
+                      00122     
+                      00123     ;movf valor,w           ; Valor a W
+002B   0080           00124     movwf INDF              ; INDF apunta a valor
+002C   07A0           00125     addwf suma,f            ; El valor leido lo suma a la variable suma
+002D   1803           00126     btfsc STATUS,C          ; Verifica si el carry está en cero (si esta en 1 se debe pasar a suma:1)
+002E   0AA1           00127     incf suma+1,f           ; El carry no es cero
+002F   0A84           00128     incf FSR,f
+0030   0804           00129     movf FSR,0              ; A W
+0031   3A2A           00130     xorlw arreglo+8         ; Modifica el Z del registro STATUS. Así podemos saber si estamos en la ulti
+                            ma posicion
+0032   3022           00131     movlw arreglo           ; Carga Wreg con la posicion inicial del arreglo
+0033   1903           00132     btfsc STATUS,Z
+0034   0084           00133     movwf FSR
+                      00134     
+                      00135     ; Ahora se hace la division. Se divide por 2, tres veces.
+                      00136     ; Primera division por 2
+0035   1003           00137     bcf STATUS,C            ; Borra el carry
+0036   0C21           00138     rrf suma+1,0
+0037   00AC           00139     movwf division+1
+Message[305]: Using default destination of 1 (file).
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0038   0CA0           00140     rrf suma
+0039   00AB           00141     movwf division
+                      00142     
+                      00143     ; Segunda division por 2
+003A   1003           00144     bcf STATUS,C            ; Borra el carry
+003B   0CAC           00145     rrf division+1,1
+003C   0CAB           00146     rrf division,1
+                      00147     
+                      00148     ; Tercera division por 2
+003D   1003           00149     bcf STATUS,C            ; Borra el carry
+003E   0CAC           00150     rrf division+1,1
+003F   0CAB           00151     rrf division,1
+                      00152     
+                      00153     ; Esta es una decision de implementacion de dejar o no el carry. 
+                      00154     ; Lo hago parte del resultado.
+0040   1803           00155     btfsc STATUS,C          ; Verifica si el carry es cero
+0041   0AAB           00156     incf division,f         ; Si el carry es uno se suma al resultado
+0042   082B           00157     movf division,w         ; Mueve el resultado de la division a Wreg
+                      00158     
+0043   0008           00159     return
+                      00160     
+                      00161     
+0044                  00162 Retardo:
+Message[305]: Using default destination of 1 (file).
+0044   0BAF           00163     decfsz delay1
+0045   2???           00164     goto Retardo
+Message[305]: Using default destination of 1 (file).
+0046   0BB0           00165     decfsz delay2
+0047   2???           00166     goto Retardo
+0048   0008           00167     return
+                      00168     
+                      00169 
+                      00170     #include <UART_RS232.inc>
+                      00001 ; ******************************************************************************************************
+                            *
+                      00002 ; * MODELO DE PIC: 12F675                                                                               
+                            *
+                      00003 ; * IMPLEMENTACIÓN DE UNA UART (RS232) POR SOFTWARE (Solo Transmisión)                                  
+                            *
+                      00004 ; * UTILIZO EL CRISTAL INTERNO DEL uC. EL MISMO ES DE 4 Mhz.                                            
+                            *
+                      00005 ; * VELOCIDAD DE TRANSMISIÓN: 1200 bps                                                                  
+                            *
+                      00006 ; * PERIODO DE TIEMPO DE TRANSICIÓN DE BIT: 1/1200 bps = 833,33 us                                      
+                            *
+                      00007 ; * ALUMNO: Alejandro Debus                                                                             
+                            *
+                      00008 ; ******************************************************************************************************
+                            *
+                      00009     
+                      00010     cblock
+  00000031            00011         dato                        ; Para guardar el dato a transmitir
+  00000032            00012         nbits                       ; Numero de bits a transmitir
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  00000033            00013         num                         ; Carga del TIMER 0
+                      00014     endc
+                      00015  
+                      00016 #define UART_TX GPIO,5              ; Pin 5 como transmisión
+                      00017 ;#define UART_RX GPIO,2             ; Pin 2 como recepción
+                      00018 #define UART_TX_DIR TRISIO,5        ; Pin de dirección de registro para transmisión
+                      00019 ;#define UART_RX_DIR TRISIO,2       ; Pin de dirección de registro para recepción
+                      00020     
+                      00021     
+0049                  00022 Inicializa_UART:
+                      00023     ; Configura TMR0
+0049   1683           00024     bsf STATUS,RP0                  ; Selecciono Banco 1
+004A   3001           00025     movlw b'00000001'               ; Prescaler 1:4
+004B   0081           00026     movwf OPTION_REG
+004C   302F           00027     movlw d'47'                     ; Carga del TMR0
+004D   00B3           00028     movwf num
+                      00029     
+004E   1283           00030     bcf STATUS,RP0                  ; Selecciono Banco 0
+004F   3008           00031     movlw d'8'                      ; Cantidad de bits que se van a transmitir.
+0050   00B2           00032     movwf nbits
+0051   1685           00033     bsf UART_TX                     ; En el tiempo ocioso (idle state) queda en estado lógico 1.
+0052   1683           00034     bsf STATUS,RP0                  ; Selecciono Banco 1
+0053   1285           00035     bcf UART_TX_DIR                 ; Como salida (para la transmisión)
+                      00036     ;bsf UART_RX_DIR                ; Como entrada (para la recepción)
+0054   1283           00037     bcf STATUS,RP0                  ; Selecciono Banco 0 (vuelvo como una buena práctica de programación
+                            )
+0055   0008           00038     return
+                      00039     
+                      00040     
+0056                  00041 Transmite_UART:
+                      00042     ; Primero se transmite el "bit de inicio" que es un 0
+0056   1283           00043     bcf STATUS,RP0                  ; Selecciono Banco 0
+0057   00B1           00044     movwf dato                      ; Guardo en "dato" el byte a transmitir
+                      00045     ; Envía "bit de inicio"         ;
+0058   1285           00046     bcf UART_TX                     ; Envía bit de inicio
+0059   2???           00047     call Temporizador0
+005A                  00048 Envia_Dato:
+                      00049     ; Comienza a enviar el "dato" (8 bits)
+005A   0CB1           00050     rrf dato,1                      ; Rotación a la derecha
+005B   1803           00051     btfsc STATUS,C                  ; Comprueba si el bit de CARRY es cero
+005C   2???           00052     goto Carry_Uno                  ; El bit de Carry NO es cero
+005D   2???           00053     goto Carry_Cero                 ; El bit de Carry ES cero
+                      00054 
+005E                  00055 Carry_Cero:
+005E   1285           00056     bcf UART_TX                     ; Envía un "0"
+005F   2???           00057     call Temporizador0              ; Tiempo de transición
+0060   2???           00058     goto Verifica_Fin
+                      00059     
+0061                  00060 Carry_Uno:
+0061   1685           00061     bsf UART_TX                     ; Envía un "1"
+0062   2???           00062     call Temporizador0              ; Tiempo de transición
+0063   2???           00063     goto Verifica_Fin
+                      00064     
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0064                  00065 Verifica_Fin:
+0064   0BB2           00066     decfsz nbits,1                  ; Decrementa nbits y verifica si termino. De ser así envía el bit de
+                             stop
+0065   2???           00067     goto Envia_Dato                 ; No termino. Envia el siguiente bit
+0066   1685           00068     bsf UART_TX                     ; Envía bit de fin
+0067   2???           00069     call Temporizador0              ; Tiempo de transicion
+0068   0008           00070     return
+                      00071     
+                      00072 ; T_temp= [ T_ciclomaquina ] * Prescaler * [ (Carga_maxima_registro (8 o 16 bits) - cargaTMR0 ] 
+                      00073 ; El TMR0 es de 8 bits. Por tanto, su carga maxima es de 256
+                      00074 ; Para T(temp)=833 us que es para transmision a 1200 baudios, la cargaTMR0 es igual a 47 (aprox)
+                      00075 ; A este valor lo cargo al inicializar la UART
+0069                  00076 Temporizador0:
+0069   0833           00077     movfw num                       ; Carga en W el valor de carga del TMR0
+006A   0081           00078     movwf TMR0                      ; Cargo al TMR0 el valor de carga
+006B                  00079 Bucle:
+006B   1D0B           00080     btfss INTCON,T0IF               ; Verifica si ya desbordó el TMR0
+006C   2???           00081     goto Bucle                      ; El TMR0 no desbordó
+006D   110B           00082     bcf INTCON,T0IF                 ; Limpia la bandera de desborde del registro
+006E   0008           00083     return
+                      00084     
+                      00171     
+3FD5                  00172     end
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS2                              00000002
+ANS3                              00000003
+ANSEL                             0000009F
+Bucle                             0000006B
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CHS0                              00000002
+CHS1                              00000003
+CINV                              00000004
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+COUT                              00000006
+Carry_Cero                        0000005E
+Carry_Uno                         00000061
+DC                                00000001
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+Envia_Dato                        0000005A
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+GP0                               00000000
+GP1                               00000001
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+Inicializa_UART                   00000049
+Inicio                            00000001
+Media_Movil                       0000002B
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_GPPU                          00000007
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OSCCAL                            00000090
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PS0                               00000000
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+Principal                         00000018
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+Retardo                           00000044
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+TRISIO0                           00000000
+TRISIO1                           00000001
+TRISIO2                           00000002
+TRISIO3                           00000003
+TRISIO4                           00000004
+TRISIO5                           00000005
+Temporizador0                     00000069
+Transmite_UART                    00000056
+UART_TX                           GPIO,5
+UART_TX_DIR                       TRISIO,5
+VCFG                              00000006
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+Verifica_Fin                      00000064
+W                                 00000000
+WPU                               00000095
+WPU0                              00000000
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_.org_0_001D                      0000001D
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F675                          00000001
+arreglo                           00000022
+dato                              00000031
+delay1                            0000002F
+delay2                            00000030
+division                          0000002B
+MPASM 5.64               PROYECTO_PIC12F.ASM   11-17-2015  11:54:09         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+media                             0000002E
+nbits                             00000032
+ndatos                            0000002D
+num                               00000033
+suma                              00000020
+valor                             0000002A
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     3 reported,     4 suppressed
+
+
