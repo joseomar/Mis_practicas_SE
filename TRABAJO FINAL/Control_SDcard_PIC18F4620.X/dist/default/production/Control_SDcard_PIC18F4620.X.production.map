@@ -1,0 +1,78 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Thu Nov 19 00:23:06 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x0001a6
+                   .cinit    romdata   0x0001a6    program   0x000002
+.config_300001_BUILD/DEFAULT/PRODUCTION/CONTROL    romdata   0x300001    program   0x000001
+.config_300002_BUILD/DEFAULT/PRODUCTION/CONTROL    romdata   0x300002    program   0x000001
+.config_300003_BUILD/DEFAULT/PRODUCTION/CONTROL    romdata   0x300003    program   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x0001a7      
+                            0x300001    0x300003      
+            427 out of 66584 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     CMD0   0x00002c    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+           CMD0_RESPUESTA   0x000126    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                     CMD1   0x00005e    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    CMD16   0x000090    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    CMD17   0x0000c2    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    CMD24   0x0000f4    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    Delay   0x000190    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+          Inicializar_mmc   0x000016    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                   Inicio   0x000000    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                 Re_200us   0x00016e    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                  Re_20ms   0x00014e    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                   Re_2ms   0x00017c    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                  Re_50us   0x00018a    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                   Re_5ms   0x000160    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                 Re_Delay   0x000198    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+            Retardo_200us   0x00016a    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+             Retardo_20ms   0x000146    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+              Retardo_2ms   0x000174    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+             Retardo_50us   0x000186    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+              Retardo_5ms   0x000158    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                 SD_a_SPI   0x000022    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                  Termina   0x000140    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Inicio   0x000000    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+          Inicializar_mmc   0x000016    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                 SD_a_SPI   0x000022    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                     CMD0   0x00002c    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                     CMD1   0x00005e    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    CMD16   0x000090    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    CMD17   0x0000c2    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                    CMD24   0x0000f4    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+           CMD0_RESPUESTA   0x000126    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+                  Termina   0x000140    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\control_sd_pic18f4620.asm
+             Retardo_20ms   0x000146    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                  Re_20ms   0x00014e    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+              Retardo_5ms   0x000158    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                   Re_5ms   0x000160    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+            Retardo_200us   0x00016a    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                 Re_200us   0x00016e    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+              Retardo_2ms   0x000174    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                   Re_2ms   0x00017c    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+             Retardo_50us   0x000186    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                  Re_50us   0x00018a    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                    Delay   0x000190    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+                 Re_Delay   0x000198    program     static C:\Users\aleja\MPLABXProjects\Control_SDcard_PIC18F4620.X\RETARDOS.inc
+
+
