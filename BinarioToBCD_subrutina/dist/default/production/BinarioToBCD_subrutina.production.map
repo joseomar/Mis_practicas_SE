@@ -1,0 +1,54 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Tue Sep 13 16:38:14 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .cinit    romdata   0x000000    program   0x000002
+                   .org_0       code   0x000020    program   0x00003a
+.config_300001_BUILD/DEFAULT/PRODUCTION/BINARIO    romdata   0x300001    program   0x000001
+.config_300002_BUILD/DEFAULT/PRODUCTION/BINARIO    romdata   0x300002    program   0x000001
+.config_300003_BUILD/DEFAULT/PRODUCTION/BINARIO    romdata   0x300003    program   0x000001
+.config_300005_BUILD/DEFAULT/PRODUCTION/BINARIO    romdata   0x300005    program   0x000001
+.config_300006_BUILD/DEFAULT/PRODUCTION/BINARIO    romdata   0x300006    program   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000001      
+                            0x000020    0x000059      
+                            0x300001    0x300003      
+                            0x300005    0x300006      
+            65 out of 66584 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                Bin_a_BCD   0x00002e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+              Fin_BIN_BCD   0x000054    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+       IncrementaCentenas   0x00004c    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+        IncrementaDecenas   0x00003e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+                   Inicio   0x000020    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+                Principal   0x000022    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+                  Resta10   0x000034    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+             _.org_0_002A   0x00002a    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   Inicio   0x000020    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+                Principal   0x000022    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+             _.org_0_002A   0x00002a    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+                Bin_a_BCD   0x00002e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+                  Resta10   0x000034    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+        IncrementaDecenas   0x00003e    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+       IncrementaCentenas   0x00004c    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+              Fin_BIN_BCD   0x000054    program     static /home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm
+
+

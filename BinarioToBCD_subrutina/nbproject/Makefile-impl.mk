@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=BinarioToBCD.X
+PROJECTNAME=BinarioToBCD_subrutina
 
 # Active Configuration
 DEFAULTCONF=default

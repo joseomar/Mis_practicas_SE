@@ -40,7 +40,7 @@
 	    Unidades
 	endc
     
-Numero EQU d'118'
+Numero EQU d'95'
     
     org 0x20
     
@@ -63,7 +63,7 @@ Bin_a_BCD:
 	
 Resta10:
 	movlw	d'10'		;Asigno 10 a w
-	subwf	Unidades,0	;Resto 10 a unidades
+	subwf	Unidades,0	;Resto 10 a unidades y lo almaceno en W
 	btfss	STATUS,C	;Si el bit de Carry esta seteado, el numero es mayor a 10 y salto
 	goto	Fin_BIN_BCD	;Si el bit de Carry es 0, significa que el numero es menor a 10.
 	
@@ -81,7 +81,7 @@ IncrementaCentenas:
 	goto	Resta10
 	
 Fin_BIN_BCD:
-	swapf	Decenas,0
+	swapf	Decenas,0	;El resultado del SWAP es puesto en W
 	addwf	Unidades,0
 	return	
 	

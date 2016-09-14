@@ -1,3 +1,3 @@
 build/default/production/BinarioToBCD.o:  \
-	/home/jose/Documentos/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm  \
+	/home/jose/Carpeta_Github/Mis_practicas_SE/BinarioToBCD_subrutina/BinarioToBCD.asm  \
 
