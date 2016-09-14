@@ -38,6 +38,12 @@ DEBUGGABLE_SUFFIX=cof
 FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Parpadeo_LED.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
+ifeq ($(COMPARE_BUILD), true)
+COMPARISON_BUILD=
+else
+COMPARISON_BUILD=
+endif
+
 # Object Directory
 OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 
@@ -86,7 +92,7 @@ ${OBJECTDIR}/parpadeo.o: parpadeo.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/parpadeo.o.d 
 	@${RM} ${OBJECTDIR}/parpadeo.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/parpadeo.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/parpadeo.lst\\\" -e\\\"${OBJECTDIR}/parpadeo.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/parpadeo.o\\\" \\\"parpadeo.asm\\\" 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/parpadeo.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/parpadeo.lst\\\" -e\\\"${OBJECTDIR}/parpadeo.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/parpadeo.o\\\" \\\"parpadeo.asm\\\" 
 	@${DEP_GEN} -d "${OBJECTDIR}/parpadeo.o"
 	@${FIXDEPS} "${OBJECTDIR}/parpadeo.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
@@ -95,7 +101,7 @@ ${OBJECTDIR}/parpadeo.o: parpadeo.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/parpadeo.o.d 
 	@${RM} ${OBJECTDIR}/parpadeo.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/parpadeo.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/parpadeo.lst\\\" -e\\\"${OBJECTDIR}/parpadeo.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/parpadeo.o\\\" \\\"parpadeo.asm\\\" 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/parpadeo.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/parpadeo.lst\\\" -e\\\"${OBJECTDIR}/parpadeo.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/parpadeo.o\\\" \\\"parpadeo.asm\\\" 
 	@${DEP_GEN} -d "${OBJECTDIR}/parpadeo.o"
 	@${FIXDEPS} "${OBJECTDIR}/parpadeo.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	

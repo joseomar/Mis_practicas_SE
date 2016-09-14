@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Parpadeo_LED.X
+PROJECTNAME=Encendido_LED.X
 
 # Active Configuration
 DEFAULTCONF=default

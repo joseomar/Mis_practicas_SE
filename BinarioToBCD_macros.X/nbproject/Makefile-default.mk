@@ -38,6 +38,12 @@ DEBUGGABLE_SUFFIX=cof
 FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/BinarioToBCD_macros.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
+ifeq ($(COMPARE_BUILD), true)
+COMPARISON_BUILD=
+else
+COMPARISON_BUILD=
+endif
+
 # Object Directory
 OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 
@@ -86,7 +92,7 @@ ${OBJECTDIR}/BinarioToBCD.o: BinarioToBCD.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/BinarioToBCD.o.d 
 	@${RM} ${OBJECTDIR}/BinarioToBCD.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/BinarioToBCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PICKIT2=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/BinarioToBCD.lst\\\" -e\\\"${OBJECTDIR}/BinarioToBCD.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/BinarioToBCD.o\\\" \\\"BinarioToBCD.asm\\\" 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/BinarioToBCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_PICKIT2=1 -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/BinarioToBCD.lst\\\" -e\\\"${OBJECTDIR}/BinarioToBCD.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/BinarioToBCD.o\\\" \\\"BinarioToBCD.asm\\\" 
 	@${DEP_GEN} -d "${OBJECTDIR}/BinarioToBCD.o"
 	@${FIXDEPS} "${OBJECTDIR}/BinarioToBCD.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	
@@ -95,7 +101,7 @@ ${OBJECTDIR}/BinarioToBCD.o: BinarioToBCD.asm  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/BinarioToBCD.o.d 
 	@${RM} ${OBJECTDIR}/BinarioToBCD.o 
-	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/BinarioToBCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/BinarioToBCD.lst\\\" -e\\\"${OBJECTDIR}/BinarioToBCD.err\\\" $(ASM_OPTIONS)   -o\\\"${OBJECTDIR}/BinarioToBCD.o\\\" \\\"BinarioToBCD.asm\\\" 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/BinarioToBCD.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION) -u  -l\\\"${OBJECTDIR}/BinarioToBCD.lst\\\" -e\\\"${OBJECTDIR}/BinarioToBCD.err\\\" $(ASM_OPTIONS)    -o\\\"${OBJECTDIR}/BinarioToBCD.o\\\" \\\"BinarioToBCD.asm\\\" 
 	@${DEP_GEN} -d "${OBJECTDIR}/BinarioToBCD.o"
 	@${FIXDEPS} "${OBJECTDIR}/BinarioToBCD.o.d" $(SILENT) -rsi ${MP_AS_DIR} -c18 
 	

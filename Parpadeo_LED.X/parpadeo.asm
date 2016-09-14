@@ -81,15 +81,15 @@ Delay2               ; en los retardos (los mismo tendran 16bits y estaran conse
 Inicio:
      bcf       TRISB,0        ; RB0 salida
 LoopPrincipal:
-     btg       PORTB,0        ; Encendemos led conectado a RB0
-     call      LoopEncendido
+     btg       PORTB,0        ; Encendemos o apagamos led conectado a RB0
+     call      LoopMantener
      goto      LoopPrincipal   ; y volvemos todo de nuevo...
      
-LoopEncendido:
+LoopMantener:
      decfsz    Delay1,1       ; Decremento Delay1 hasta llegar a cero
-     goto      LoopEncendido  ; cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
+     goto      LoopMantener  ; cada loop toma 3 ciclos de maquina * 256 loops= 768 instrucciones
      decfsz    Delay2,1       ; el proximo loop toma 3 ciclos en volver al primer loop, asi 256 veces
-     goto      LoopEncendido  ; (768+3) * 256 = 197376 instrucciones / con ciclos de 1uSeg = 0.197 seg
+     goto      LoopMantener  ; (768+3) * 256 = 197376 instrucciones / con ciclos de 1uSeg = 0.197 seg
      return
      
      end
