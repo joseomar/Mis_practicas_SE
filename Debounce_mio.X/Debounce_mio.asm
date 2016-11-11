@@ -57,8 +57,8 @@ Inicio:
 	clrf	 Contador_pulsos	;Inicializo el contador de pulsos
 	clrf	 Contador_aux
 	clrf	 PORTB			;Inicializo el puerto B	
-	movlw     0x0F               
-	movwf     ADCON1		;Port A pines digitales
+	movlw    0x0F               
+	movwf    ADCON1			;Port A pines digitales
 	movlw	 d'5'			
 	movwf	 Constante		;La confirmacion de estado será después de 5ms
 	
